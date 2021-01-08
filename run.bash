@@ -27,15 +27,6 @@
 #--- Global functions ---#
 #------------------------#
 #-----------------------------------------------------------#
-# Descr.:  This function prints the usage of this script.   #
-# Param: -                                                  #
-#-----------------------------------------------------------#
-usage() { 
-	echo "Usage: bash run.sh [-I] [-G] [-C] [-c] [-N] [-R]" 1>&2 
-    printf "\t I... Install framework in VE\n\t G... Do GP-LVM\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t R... Remove all installed and estimated files\n"
-    exit 1; 
-}
-#-----------------------------------------------------------#
 # Descr.: Checks if the Python virtual environment folders  #
 #           exists. A flag indicates this status.           #
 # Param.: -                                                 #
@@ -172,6 +163,15 @@ doCNN() {
     python CNN.py
     cd ../..
 }
+#-----------------------------------------------------------#
+# Descr.:  This function prints the usage of this script.   #
+# Param: -                                                  #
+#-----------------------------------------------------------#
+usage() { 
+	echo "Usage: bash run.sh [-I] [-G] [-g] [-C] [-c] [-N] [-R]" 1>&2 
+    printf "\t I... Install framework in VE\n\t G... Do GP-LVM\n\t g... Estimate GP-LVM features\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t R... Remove all installed and estimated files\n"
+    exit 1; 
+}
 #-----------------------#
 #--- Main processing ---#
 #-----------------------#
@@ -184,7 +184,7 @@ then
 fi
 #--- Check parameters and perform given task ---#
 checkInstallation   #Initially, we check if everything is installed
-while getopts 'IGCcNR' OPTION
+while getopts 'IGgCcNR' OPTION
 do
     case "$OPTION" in
         I)
@@ -192,6 +192,9 @@ do
             ;;
         G)
             getGPLVM #Estimate Bayesian GP-LVM features
+            ;;
+        g)
+            echo "Visualize GP-LVM"
             ;;
         C)
             doGPC #Do GP classification
