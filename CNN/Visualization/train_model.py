@@ -145,13 +145,8 @@ import matplotlib.cm as cm
 from vis.visualization import visualize_cam, overlay
 import innvestigate
 import innvestigate.utils as iutils
-#data_ = (x_train, y_train, x_test, y_test)
-#model_wo_softmax = iutils.keras.graph.model_wo_softmax(model)
 model_wo_softmax = model
-#analyzer = innvestigate.create_analyzer("lrp.z",model_wo_softmax)
-#analyzer2 = innvestigate.create_analyzer("lrp.epsilon",model_wo_softmax)
 LPR_10 = innvestigate.analyzer.relevance_based.relevance_analyzer.LRPAlphaBeta(model_wo_softmax,1,0)
-#LPR_21 = innvestigate.analyzer.relevance_based.relevance_analyzer.LRPAlphaBeta(model_wo_softmax,2,1)
 
 layer_idx = -1
 Class_Names = np.array(('Chamo', 'Hawassa','Koka', 'Lan', 'Tana', 'Ziway'))
@@ -166,10 +161,7 @@ for i in range(0,len(Class_Names)):
     else:
         print("yes")
     grads = visualize_cam(model, layer_idx, filter_indices=train_generator.class_indices[Class_Names[i]], seed_input=test_data[0][index], backprop_modifier='guided')
-    #LRP_z = analyzer.analyze(test_data[0][index].reshape((1,224,224,3)))
-    #LRP_e = analyzer2.analyze(test_data[0][index].reshape((1,224,224,3)))
     LRP_10_i    = LPR_10.analyze(test_data[0][index].reshape((1,224,224,3)))
-    #LRP_21_i    = LPR_21.analyze(test_data[0][index].reshape((1,224,224,3)))
 
     plt.imshow(grads)
     plt.axis('off')
@@ -179,10 +171,6 @@ for i in range(0,len(Class_Names)):
     plt.axis('off')
     plt.savefig(Class_Names[i]+"_LRP_10.pdf",dpi=1200)
     plt.close('all')
-    #plt.imshow(LRP_21_i[0,:,:,0])
-    #plt.axis('off')
-    #plt.savefig(Class_Names[i]+"_LRP_21.pdf",dpi=1200)
-    #plt.close('all')
     plt.imshow(test_data[0][index])
     plt.axis('off')
     plt.savefig(Class_Names[i]+".pdf",dpi=1200)
@@ -211,12 +199,8 @@ for i in range(0,prediction.shape[0]):
     plt.imshow(LRP_10_i[0,:,:,0])
     plt.axis('off')
     plt.savefig(str(i)+'_'+prefix+Class_Names[np.argmax(ground_truth[i,:])]+"_LRP_10.pdf",dpi=1200)
-    #plt.close('all')
-    #plt.imshow(LRP_21_i[0,:,:,0])
-    #plt.axis('off')
-    #plt.savefig('./all/'+str(i)+'_'+prefix+Class_Names[np.argmax(ground_truth[i,:])]+"_LRP_21.pdf",dpi=1200)
     plt.close('all')
-    plt.imshow(test_data[i][index])
+    plt.imshow(test_data[0][i])
     plt.axis('off')
     plt.savefig(str(i)+'_'+prefix+Class_Names[np.argmax(ground_truth[i,:])]+".pdf",dpi=1200)
     plt.close('all')
