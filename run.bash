@@ -162,6 +162,16 @@ doGPC() {
     mv ./*.log ./Procrustes/.
     cd ..
 }
+#-----------------------------------------------------------#
+# Descr.: Do CNN classification based on the previously     #
+#           generated data files.                           #
+#-----------------------------------------------------------#
+doCNN() {
+    echo "Do CNN classification"
+    cd ./CNN/Classification 
+    python CNN.py
+    cd ../..
+}
 #-----------------------#
 #--- Main processing ---#
 #-----------------------#
@@ -190,7 +200,7 @@ do
             echo "Classify data using R. Neals HMC"
             ;;
         N)
-            echo "Do CNN classification"
+            doCNN #Do CNN classification
             ;;
         R)
             echo "Remove all installed and estimated files"
