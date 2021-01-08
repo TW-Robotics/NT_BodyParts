@@ -1,3 +1,4 @@
+# coding: utf-8
 # Similar to the CNN.py script in the Classification folder,
 # this script generates the data used for the CNN model.
 # Different to the classification scripts, we are here interested 
@@ -9,8 +10,8 @@
 # [1] R. R. Selvaraju, A. Das, R. Vedantam, M. Cogswell, D. Parikh, and D. Batra. 
 #           Grad-CAM: Visual Explanations from Deep Networks via Gradient-Based 
 #           Localization. 
-#           In 2017 IEEE International Conference on Computer Vision (ICCV), pages618–626, 2017.
-# [2] S. Bach, A. Binder, G. Montavon, F. Klauschen, K. R. Müller, and W. Samek.
+#           In 2017 IEEE International Conference on Computer Vision (ICCV), pages 618–626, 2017.
+# [2] S. Bach, A. Binder, G. Montavon, F. Klauschen, K. R. Mueller, and W. Samek.
 #           On Pixel-Wise Explanations for Non-Linear Classifier Decisions by Layer-Wise 
 #           Relevance Propagation. PLoS ONE, 10(7):e0130140, 2015.
 #
