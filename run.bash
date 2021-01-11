@@ -1,10 +1,10 @@
 #TODO: 
 # Installation scripts: done (2.1.2021)
 # GP-LVM: done (3.1.2021)
+# GP-LVM Visualization: done (6.1.2021)
 # GPC: done (4/5.1.2021)
 # Convert GPC output: done (5.1.2021)
-# CNN + VIS: CNN done (6.1.2021) TODO integrate in this bash script (python ...) and vis
-# Write a header to all files:
+# CNN + VIS: done (8.1.2021)
 # Neals HMC
 # Procrustes
 # Vis scripts
@@ -40,6 +40,21 @@ checkInstallation() {
     else
         echo "Installation not complete"
     fi
+}
+#-----------------------------------------------------------#
+# Descr.: This function installs R. Neals HMC package.      #
+#-----------------------------------------------------------#
+installNeal() {
+    echo "Install R. Neals package"
+    git clone https://gitlab.com/radfordneal/fbm.git
+    cd ./fbm
+    git checkout fbm.2020-01-24
+    cd ..
+    mv fbm ./HMC/. #Move folder in HMC folder
+    #--- compile it ---#
+    cd ./HMC/fbm
+    ./make-all > ../hmc_install.log
+    cd ../..
 }
 #-----------------------------------------------------------#
 # Descr.: This function installs the python VE's if needed. #
@@ -125,6 +140,16 @@ getGPLVM() {
     paste -d, ./Data/targetID.csv ./Data/labels.csv ./GPLVM/optModel_bgp_features_train.csv > ./GPLVM/BGPLVM_DATA.csv
 }
 #-----------------------------------------------------------#
+# Descr.: Get heatmaps from estimated GP-LVM                #
+#-----------------------------------------------------------#
+getGPLVM_Maps(){
+    echo "Estimate GP-LVM features from data"
+    logfile_name="./$(date '+%Y%m%d_%H%M_GPLVM_VIS.log')"
+    cd ./GPLVM
+    ../Python/VE/bin/python ./FeatureVariance.py >> "$logfile_name" #Estimate GP-LVM features from data 
+    cd .. 
+}
+#-----------------------------------------------------------#
 # Descr.: Do classification for GP-LVM featrues and         #
 #           procrustes landmarks.                           #
 #-----------------------------------------------------------#
@@ -164,12 +189,21 @@ doCNN() {
     cd ../..
 }
 #-----------------------------------------------------------#
+# Descr.: Do CNN modelling and visualization afterwards.    #
+#-----------------------------------------------------------#
+visCNN() {
+    echo "Do Grad-CAM and LRP visualization"
+    cd ./CNN/Visualization
+    python CNN.py
+    cd ../..
+}
+#-----------------------------------------------------------#
 # Descr.:  This function prints the usage of this script.   #
 # Param: -                                                  #
 #-----------------------------------------------------------#
 usage() { 
-	echo "Usage: bash run.sh [-I] [-G] [-g] [-C] [-c] [-N] [-R]" 1>&2 
-    printf "\t I... Install framework in VE\n\t G... Do GP-LVM\n\t g... Estimate GP-LVM features\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t R... Remove all installed and estimated files\n"
+	echo "Usage: bash run.sh [-I] [-G] [-g] [-C] [-c] [-N] [-n] [-R]" 1>&2 
+    printf "\t I... Install framework in VE\n\t i... Install R. Neals package\n\t G... Do GP-LVM\n\t g... Estimate GP-LVM features\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t n... Estimate CNN visualization\n\t R... Remove all installed and estimated files\n"
     exit 1; 
 }
 #-----------------------#
@@ -183,18 +217,22 @@ then
     usage
 fi
 #--- Check parameters and perform given task ---#
+#installNeal
 checkInstallation   #Initially, we check if everything is installed
-while getopts 'IGgCcNR' OPTION
+while getopts 'IiGgCcNnR' OPTION
 do
     case "$OPTION" in
         I)
             installVE #Install the virtual environment
             ;;
+        i)
+            installNeal #Install Neals Bayes inference package
+            ;;
         G)
             getGPLVM #Estimate Bayesian GP-LVM features
             ;;
         g)
-            echo "Visualize GP-LVM"
+            getGPLVM_Maps #Estimate heatmaps from GP-LVM
             ;;
         C)
             doGPC #Do GP classification
@@ -204,6 +242,9 @@ do
             ;;
         N)
             doCNN #Do CNN classification
+            ;;
+        n)
+            visCNN #Do CNN visualization
             ;;
         R)
             echo "Remove all installed and estimated files"
