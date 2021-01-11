@@ -5,7 +5,7 @@
 # GPC: done (4/5.1.2021)
 # Convert GPC output: done (5.1.2021)
 # CNN + VIS: done (8.1.2021)
-# Neals HMC
+# Neals HMC: done (11.1.2021) TODO: Testing
 # Procrustes
 # Vis scripts
 
@@ -198,13 +198,71 @@ visCNN() {
     cd ../..
 }
 #-----------------------------------------------------------#
+# Descr.: Do HMC classification.                            #
+#-----------------------------------------------------------#
+doHMC() {
+    echo "Classify data using R. Neals HMC"
+    cd ./HMC/Code
+    source ./setvenv.sh
+    #--- Now we run the code for each experiment ---#
+    logfile_name="_$(date '+%Y%m%d_%H%M_GPLVM.log')"
+    python hmc_mlp_4_tilapia.py "procrustes" > "procrustes""$logfile_name"
+    python hmc_mlp_4_tilapia.py "gplvm_all" > "GPAll""$logfile_name"
+    python hmc_mlp_4_tilapia.py "gplvm_red" > "RPReduced""$logfile_name"
+    cd ../..
+}
+#-----------------------------------------------------------#
 # Descr.:  This function prints the usage of this script.   #
-# Param: -                                                  #
 #-----------------------------------------------------------#
 usage() { 
 	echo "Usage: bash run.sh [-I] [-G] [-g] [-C] [-c] [-N] [-n] [-R]" 1>&2 
     printf "\t I... Install framework in VE\n\t i... Install R. Neals package\n\t G... Do GP-LVM\n\t g... Estimate GP-LVM features\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t n... Estimate CNN visualization\n\t R... Remove all installed and estimated files\n"
     exit 1; 
+}
+
+#-----------------------------------------------------------#
+# Descr.:  Clears up installation and data.                 #
+#-----------------------------------------------------------#
+removeData() {
+    echo "Remove all installed and estimated files"
+    #--------------------#
+    #--- Installation ---#
+    #--------------------#
+    #--- CNN and GP-LVM ---#
+    cd ./Python 
+    rm -rf VE VE_CNN __pycacke__ *.log
+    cd ..
+    #--- Neals HMC ---#
+    cd ./HMC 
+    cd ./Code; rm -rf ./Data *.log
+    cd ..
+    rm -rf fbm *.log
+    cd ..
+    #-------------------#
+    #--- GP-LVM data ---#
+    #-------------------#
+    cd ./GPLVM 
+    rm -rf *.csv *.log *.npy *.pdf
+    rm -rf ./Heatmaps
+    cd ..
+    #-------------------#
+    #--- GPC results ---#
+    #-------------------#
+    cd ./GPC 
+    rm -rf ./GPLVM
+    rm -rf ./Procrustes 
+    cd ..
+    #-----------------#
+    #--- CNN stuff ---#
+    #-----------------#
+    cd ./CNN/Classification 
+    rm -rf ./test ./train
+    rm -rf *.csv *.log
+    cd ../..
+    cd ./CNN/Visualization
+    rm -rf ./test ./train ./AUG_* ./noAUG_*
+    rm -rf *.csv *.log
+    cd ../..
 }
 #-----------------------#
 #--- Main processing ---#
@@ -238,7 +296,7 @@ do
             doGPC #Do GP classification
             ;;
         c)
-            echo "Classify data using R. Neals HMC"
+            doHMC #Do Neals HMC 
             ;;
         N)
             doCNN #Do CNN classification
@@ -247,7 +305,7 @@ do
             visCNN #Do CNN visualization
             ;;
         R)
-            echo "Remove all installed and estimated files"
+            removeData #Remove all estimated and installed files
             ;;
         *)
             usage
