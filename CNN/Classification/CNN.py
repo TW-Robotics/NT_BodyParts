@@ -27,8 +27,14 @@ import sys
 #-------------------------------#
 #--- Some global definitions ---#
 #-------------------------------#
+Augmention=sys.argv[1]=="1"            #Get augmention flag
+print("Augmentation:", Augmention)
 n_fold=10                               #k for k-fold cross validation
 path_images = "../../Data/images/"      #Path to images
+if(Augmention):
+    os.system("mkdir Augmented")
+else:
+    os.system("mkdir notAugmented")
 #-----------------------------#
 #--- Some global functions ---#
 #-----------------------------#
@@ -150,10 +156,19 @@ for ITERATION in range (0,samples_iteration.shape[1]):
         #---------------#
         #--- Run CNN ---#
         #---------------#
-        os.system("../../Python/VE_CNN/bin/python train_model.py > logfile_"+str(ITERATION)+"_"+str(k)+"_.log")
+        if(Augmention):
+            os.system("../../Python/VE_CNN/bin/python trainModel.py 1 > logfile_"+str(ITERATION)+"_"+str(k)+"_.log")
+        else:
+            os.system("../../Python/VE_CNN/bin/python trainModel.py 0 > logfile_"+str(ITERATION)+"_"+str(k)+"_.log")
         #-----------------------------------#
         #--- Load data from CNN training ---#
         #-----------------------------------#
+        os.system("mv CNNmodel CNNmodel_"+str(ITERATION)+"_"+str(k))
+        os.system("mv train train_"+str(ITERATION)+"_"+str(k))
+        os.system("mv test test_"+str(ITERATION)+"_"+str(k))
+        os.system("mv *.pdf test_"+str(ITERATION)+"_"+str(k))
+        os.system("mv *.npy test_"+str(ITERATION)+"_"+str(k))
+
         run_pred_labels     = np.genfromtxt("./label_prediction.csv", delimiter=' ').astype(int)
         run_groundT_labels  = np.genfromtxt("./label_groundTruth.csv", delimiter=' ').astype(int)
         run_file_names      = np.genfromtxt("./label_IDs.csv", delimiter=' ', dtype=str)
@@ -175,7 +190,8 @@ for ITERATION in range (0,samples_iteration.shape[1]):
         #--------------------------------------#
         #--- Clear up before next iteration ---#
         #--------------------------------------#
-        os.system("rm label*")   #We do not need the CSV files anymore
+        os.system("mv *.csv train_"+str(ITERATION)+"_"+str(k))
+        #os.system("rm label*")   #We do not need the CSV files anymore
     #-------------------------------------------------#
     #--- Convert data frame to project data format ---#
     #-------------------------------------------------#
@@ -192,3 +208,20 @@ for ITERATION in range (0,samples_iteration.shape[1]):
     #df = pd.DataFrame(data=data_memory)
     prefix = str(ITERATION)
     df.to_csv(prefix+"_dataMatrix.csv", index=False)
+    if(Augmention):
+        os.system("mv *_dataMatrix.csv Augmented/.")
+    else:
+        os.system("mv *_dataMatrix.csv notAugmented/.")
+#-----------------#
+#--- Move data ---#
+#-----------------#
+if(Augmention):
+    os.system("mv train_* Augmented/.")
+    os.system("mv test_* Augmented/.")
+    os.system("mv CNNmodel* Augmented/.")
+    os.system("mv *.log Augmented/.")
+else:
+    os.system("mv train_* notAugmented/.")
+    os.system("mv test_* notAugmented/.")
+    os.system("mv CNNmodel* notAugmented/.")
+    os.system("mv *.log notAugmented/.")
