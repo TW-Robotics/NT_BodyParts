@@ -3,3 +3,4 @@ matplotlib
 sklearn
 seaborn==0.9.1
 pandas
+opencv-python

@@ -6,6 +6,8 @@
 # Convert GPC output: done (5.1.2021)
 # CNN + VIS: done (8.1.2021)
 # Neals HMC: done (11.1.2021) TODO: Testing
+# p-val image
+# Redo CNN
 # Procrustes
 # Vis scripts
 
