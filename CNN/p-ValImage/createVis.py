@@ -8,6 +8,7 @@
 #
 # (C) Wilfried Woeber 2020 <wilfried.woeber@technikum-wien.at>
 import cv2
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -50,16 +51,27 @@ def getPimage(img,k):
     #--- normalize image ---#
     counter_norm = counter/float(k)
     return(counter_norm)
+#--------------------------#
 #--- Do main processing ---#
-path_data="../vis-test/Augmented/"	#Path to CNN data
-pImg_k=1000                     #Number of samples for p img creation
-alpha = 0.001                   #Alpha value for test
+#--------------------------#
+path_data= sys.argv[1]	    #Path to CNN data
+pImg_k=1000                 #Number of samples for p img creation
+alpha = 0.001               #Alpha value for test
+#---------------------------#
+#--- Print system config ---#
+#---------------------------#
+print("Processing folger %s"%path_data)
+print("Use kernel width/height %d" % kernel_width)
+print("Use std sigma value")
+print("Use %d sampling iterations" % pImg_k)
+print("Using alpha value %f" %alpha)
 #------------------------------#
 #--- Process augmented data ---#
 #------------------------------#
 class_names=("Chamo","Hawassa","Koka","Lan","Tana","Ziway")
 Iteration="0"
 for k in range(0,10):
+    print("Process %d"%k)
     test_folder=path_data+"test_"+Iteration+"_"+str(k)
     test_files = [f for f in os.listdir(test_folder) if 
             os.path.isfile(os.path.join(test_folder, f))]   #Get all files in the test folder
@@ -70,13 +82,23 @@ for k in range(0,10):
     img_files_allSpecimen  = [f for f in img_files if len(f.split('.'))==1]
     #--- Process all images ---#
     for IMAGE in img_files_allSpecimen:
+        print("  Process %s"%IMAGE)
         img_name=IMAGE
+        #---------------------------------------#
+        #--- Get all images from data folder ---#
+        #---------------------------------------#
         img_LRP = np.load(test_folder+"/"+img_name+"__LRP_10.npy")
         img_GRD = np.load(test_folder+"/"+img_name+"__grad.npy")
         img     = np.load(test_folder+"/"+img_name+"_.npy")
         img_RGB = img.copy()
         img     = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)     #Convert to grayscale
-        pImg=getPimage(img_LRP,pImg_k)
+        #------------------------------------#
+        #--- Do the p-value visualization ---#
+        #------------------------------------#
+        pImg=getPimage(img_LRP,pImg_k)  #Get p-value image
+        #------------------------#
+        #--- Do visualization ---#
+        #------------------------#
         f, arr = plt.subplots(1,3)
         arr[0].imshow(img, cmap='gray');arr[0].axis('off')
         arr[1].imshow(img_LRP);arr[1].axis('off')
@@ -88,27 +110,4 @@ for k in range(0,10):
         #plt.show()
         plt.savefig(IMAGE+".pdf",bbox_inches = 'tight',pad_inches = 0)
         plt.savefig(IMAGE+".png",bbox_inches = 'tight',pad_inches = 0)
-
-##--- load data ---#
-#img_LRP = np.load("./data/2_Lan_LRP_10.npy")
-#img_GRD = np.load("./data/2_Lan_grad.npy")
-#img     = np.load("./data/2_Lan.npy")
-#print("generate random iterations")
-#memory = np.zeros((224,224,k))
-#for looper in range(0,k):
-#    memory[:,:,looper]=mySmoother(randomizeImage(img_LRP))
-#print("Check random images")
-#counter = np.zeros((224,224))
-#smoothed_LRP = mySmoother(img_LRP)
-#for R in range(0,224):
-#    for C in range(0,224):
-#        random_vector = memory[R,C,:]
-#        counter[R,C] = np.sum(
-#                                random_vector > smoothed_LRP[R,C]
-#                                )
-##--- normalize image ---#
-#counter_norm = counter/float(k)
-#plt.imshow(counter_norm<alpha, cmap='gray')
-##plt.savefig("LRP_alpha0001.pdf")
-#plt.show()
-#
+        plt.close()
