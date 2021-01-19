@@ -54,7 +54,16 @@ def getPimage(img,k):
 #--------------------------#
 #--- Do main processing ---#
 #--------------------------#
+if(len(sys.argv)==1):
+    sys.argv=('','../Classification/Augmented/','GRAD')
 path_data= sys.argv[1]	    #Path to CNN data
+if(sys.argv[2] == "GRAD"):
+    doGRAD=True     #Check if Grad-CAM should be used
+elif(sys.argv[2] == "LRP"):
+    doGRAD=False
+else:
+    print("ERROR: choose appropriate visualization")
+    sys.exit(-1)
 pImg_k=1000                 #Number of samples for p img creation
 alpha = 0.001               #Alpha value for test
 #---------------------------#
@@ -65,6 +74,7 @@ print("Use kernel width/height %d" % kernel_width)
 print("Use std sigma value")
 print("Use %d sampling iterations" % pImg_k)
 print("Using alpha value %f" %alpha)
+print("Doing Grad-CAM %d" %doGRAD)
 #------------------------------#
 #--- Process augmented data ---#
 #------------------------------#
@@ -89,19 +99,28 @@ for k in range(0,10):
         #---------------------------------------#
         img_LRP = np.load(test_folder+"/"+img_name+"__LRP_10.npy")
         img_GRD = np.load(test_folder+"/"+img_name+"__grad.npy")
+        img_GRD_raw = img_GRD.copy()
+        img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_RGB2LUV)     #Convert to grayscale
+        img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_BGR2GRAY)     #Convert to grayscale
         img     = np.load(test_folder+"/"+img_name+"_.npy")
         img_RGB = img.copy()
         img     = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)     #Convert to grayscale
         #------------------------------------#
         #--- Do the p-value visualization ---#
         #------------------------------------#
-        pImg=getPimage(img_LRP,pImg_k)  #Get p-value image
+        if(doGRAD):
+            pImg=getPimage(img_GRD,pImg_k)  #Get p-value image
+        else:
+            pImg=getPimage(img_LRP,pImg_k)  #Get p-value image
         #------------------------#
         #--- Do visualization ---#
         #------------------------#
         f, arr = plt.subplots(1,3)
         arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-        arr[1].imshow(img_LRP);arr[1].axis('off')
+        if(doGRAD):
+            arr[1].imshow(img_GRD_raw);arr[1].axis('off')
+        else:
+            arr[1].imshow(img_LRP);arr[1].axis('off')
         #arr[2].imshow(pImg<alpha, cmap='gray');arr[2].axis('off')
         img_RGB[:,:,0]=img_RGB[:,:,2]+np.multiply(pImg<alpha,img)
         arr[2].imshow(img_RGB);arr[2].axis('off')
