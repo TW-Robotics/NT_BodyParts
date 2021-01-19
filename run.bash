@@ -158,9 +158,9 @@ getGPLVM_Maps(){
 doGPC() {
     echo "Classify data using GPC"
     cd ./GPC/
-    #-----------------------------------#
-    #--- Do GPC with GP-LVM features ---#
-    #-----------------------------------#
+    #--------------------------------------------#
+    #--- Do GPC with selected GP-LVM features ---#
+    #--------------------------------------------#
     echo "Classify GP-LVM features"
     logfile_name="./GPLVM_$(date '+%Y%m%d_%H%M_GPLVM.log')"
     mkdir -p GPLVM #Create subfolder for GP-LVM classification results
@@ -168,6 +168,14 @@ doGPC() {
     #--- Move reults ---#
     mv ./*.csv ./GPLVM/.
     mv ./*.log ./GPLVM/.
+    #-------------------------------------------#
+    #--- Do GPC with full 14 GP-LVM features ---#
+    #-------------------------------------------#
+    mkdir -p GPLVM_full #Create subfolder for GP-LVM classification results
+    ../Python/VE/bin/python ./GPC.py ../GPLVM/BGPLVM_DATA.csv ../Data/FullFeatures.csv  > "$logfile_name"
+    #--- Move reults ---#
+    mv ./*.csv ./GPLVM_full/.
+    mv ./*.log ./GPLVM_full/.
     #---------------------------------------#
     #--- Do GPC with procrustes features ---#
     #---------------------------------------#
