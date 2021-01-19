@@ -11,14 +11,22 @@
 #---------------------------------------------#
 #--- Do visualization for augmented images ---#
 #---------------------------------------------#
-#mkdir Augmented
-#../../Python/VE/bin/python ./createVis.py ../Classification/Augmented/
-#mv *.pdf Augmented/.
-#mv *.png Augmented/.
+mkdir Augmented
+../../Python/VE/bin/python ./createVis.py ../Classification/Augmented/ LRP
+mv *.pdf Augmented/.
+mv *.png Augmented/.
+mkdir Augmented_GRAD
+../../Python/VE/bin/python ./createVis.py ../Classification/Augmented/ GRAD
+mv *.pdf Augmented_GRAD/.
+mv *.png Augmented_GRAD/.
 #---------------------------------------#
 #--- Do visualization for raw images ---#
 #---------------------------------------#
 mkdir notAugmented
-../../Python/VE/bin/python ./createVis.py ../Classification/notAugmented/
+../../Python/VE/bin/python ./createVis.py ../Classification/notAugmented/ LRP
 mv *.pdf notAugmented/.
 mv *.png notAugmented/.
+mkdir notAugmented_GRAD
+../../Python/VE/bin/python ./createVis.py ../Classification/notAugmented/ GRAD
+mv *.pdf notAugmented_GRAD/.
+mv *.png notAugmented_GRAD/.
