@@ -26,19 +26,19 @@ data_Model	= "./optModel_bgp_model.npy"
 data_latent	= "./optModel_bgp_features_train.csv"
 dataFolder	= "../Data/design.csv"
 #--- Create bGPLVM model ---#
-#model =bGPLVM(  dataFolder,         #Path to training data
-#                data_latent,        #Extracted features
-#              	data_Model,         #Path to model data
-#                "",                 #Sampels from faulty classes
-#                "",                 #Path to excluded featues
-#                nrInd,              #Number of inducing pts
-#                latentDim,          #Number of latent dimensions
-#                (image_dim[1],image_dim[0]))       #Reshaping image
+model =bGPLVM(  dataFolder,         #Path to training data
+                data_latent,        #Extracted features
+              	data_Model,         #Path to model data
+                "",                 #Sampels from faulty classes
+                "",                 #Path to excluded featues
+                nrInd,              #Number of inducing pts
+                latentDim,          #Number of latent dimensions
+                (image_dim[1],image_dim[0]))       #Reshaping image
 #--------------------------------------#
 #--- Estimate variance per features ---#
 #--------------------------------------#
-#os.system("mkdir Heatmaps")
-#model.plotVarHeatmaps(prefix="./Heatmaps/")
+os.system("mkdir Heatmaps")
+model.plotVarHeatmaps(prefix="./Heatmaps/")
 #-------------------------------#
 #--- Create summarized plots ---#
 #-------------------------------#
