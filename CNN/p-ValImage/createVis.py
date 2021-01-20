@@ -51,11 +51,20 @@ def getPimage(img,k):
     #--- normalize image ---#
     counter_norm = counter/float(k)
     return(counter_norm)
+def addBorder(img):
+    #--- add black border ---#
+    for i in range(0,int(kernel_width/2)):
+        cv2.rectangle(  img,   #Destination=source
+                    (0+i,0+i),          #Top left
+                    (img.shape[0]-1-i,img.shape[1]-1-i),#Bottom right
+                    (0),            #Color
+                    1) #Thickness of lines
+    return(img)
 #--------------------------#
 #--- Do main processing ---#
 #--------------------------#
 if(len(sys.argv)==1):
-    sys.argv=('','../Classification/Augmented/','GRAD')
+    sys.argv=('','../Classification/Augmented/','LRP')
 path_data= sys.argv[1]	    #Path to CNN data
 if(sys.argv[2] == "GRAD"):
     doGRAD=True     #Check if Grad-CAM should be used
@@ -100,8 +109,9 @@ for k in range(0,10):
         img_LRP = np.load(test_folder+"/"+img_name+"__LRP_10.npy")
         img_GRD = np.load(test_folder+"/"+img_name+"__grad.npy")
         img_GRD_raw = img_GRD.copy()
-        img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_RGB2LUV)     #Convert to grayscale
-        img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_BGR2GRAY)     #Convert to grayscale
+        #--- Conversion from heatmap to grayscale image ---#
+        img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_RGB2LUV) 
+        img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_BGR2GRAY) 
         img     = np.load(test_folder+"/"+img_name+"_.npy")
         img_RGB = img.copy()
         img     = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)     #Convert to grayscale
@@ -122,11 +132,11 @@ for k in range(0,10):
         else:
             arr[1].imshow(img_LRP);arr[1].axis('off')
         #arr[2].imshow(pImg<alpha, cmap='gray');arr[2].axis('off')
-        img_RGB[:,:,0]=img_RGB[:,:,2]+np.multiply(pImg<alpha,img)
+        img_RGB[:,:,0]=img_RGB[:,:,2]+addBorder(np.multiply(pImg<alpha,img))
         arr[2].imshow(img_RGB);arr[2].axis('off')
         #arr[3].imshow(np.multiply(pImg<alpha,img), cmap='gray');arr[3].axis('off')
         plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-        #plt.show()
+        plt.show()
         plt.savefig(IMAGE+".pdf",bbox_inches = 'tight',pad_inches = 0)
         plt.savefig(IMAGE+".png",bbox_inches = 'tight',pad_inches = 0)
         plt.close()
