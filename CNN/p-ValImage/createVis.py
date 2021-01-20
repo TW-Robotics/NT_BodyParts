@@ -64,7 +64,7 @@ def addBorder(img):
 #--- Do main processing ---#
 #--------------------------#
 if(len(sys.argv)==1):
-    sys.argv=('','../Classification/Augmented/','LRP')
+    sys.argv=('','../Classification/Augmented/','GRAD')
 path_data= sys.argv[1]	    #Path to CNN data
 if(sys.argv[2] == "GRAD"):
     doGRAD=True     #Check if Grad-CAM should be used
