@@ -136,7 +136,7 @@ for k in range(0,10):
         arr[2].imshow(img_RGB);arr[2].axis('off')
         #arr[3].imshow(np.multiply(pImg<alpha,img), cmap='gray');arr[3].axis('off')
         plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-        plt.show()
+        #plt.show()
         plt.savefig(IMAGE+".pdf",bbox_inches = 'tight',pad_inches = 0)
         plt.savefig(IMAGE+".png",bbox_inches = 'tight',pad_inches = 0)
         plt.close()
