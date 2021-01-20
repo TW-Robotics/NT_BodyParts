@@ -1,4 +1,4 @@
-#!/opt/intel/ipy3.19.v5/intelpython3/bin/python
+#!../../Python/VE/bin/python
 ## to use in a shell script in my ipy3 environment (on wall) call as:
 ##
 ## ExecStart=/opt/intel/ipy3.19.v5/intelpython3/bin/python ./readmcres.py ... with proper set arguments ...
