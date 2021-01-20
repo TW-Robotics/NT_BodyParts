@@ -90,7 +90,7 @@ y_looper=0
 for i in range(0,len(selection)):
     img=np.loadtxt('./Heatmaps/'+str(selection[i])+'.csv',delimiter=',')
     pImg = getPimage(img,k)   #Get the p value image
-    arr[x_looper].imshow(addBorder((pImg<alpha)),cmap='gray')
+    arr[x_looper].imshow(addBorder((pImg<alpha).astype(float)),cmap='gray')
     arr[x_looper].axis('off')
     x_looper=x_looper+1
     if(x_looper >= plot_top_n[1]):
@@ -102,3 +102,4 @@ for i in range(0,len(selection)):
         f, arr = plt.subplots(1,4)  #Create 'grid' for plot
 os.system("cd Heatmaps; pdfjam row_1.pdf Prow_1.pdf row_2.pdf Prow_3.pdf row_3.pdf Prow_3.pdf --nup 1x6 --landscape --outfile pImg.pdf")
 os.system("cd Heatmaps; pdfcrop --margins '0 0 0 0' --clip pImg.pdf pImg.pdf")
+os.system("cd Heatmaps; rm row*.pdf; rm Prow*.pdf")
