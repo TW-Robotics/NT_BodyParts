@@ -215,10 +215,10 @@ doHMC() {
     cd ./HMC/Code
     source ./setvenv.sh
     #--- Now we run the code for each experiment ---#
-    logfile_name="_$(date '+%Y%m%d_%H%M_GPLVM.log')"
-    python hmc_mlp_4_tilapia.py "procrustes" > "procrustes""$logfile_name"
-    python hmc_mlp_4_tilapia.py "gplvm_all" > "GPAll""$logfile_name"
-    python hmc_mlp_4_tilapia.py "gplvm_red" > "RPReduced""$logfile_name"
+    logfile_name="_$(date '+%Y%m%d_%H%M_HMC.log')"
+    ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "procrustes" &> "procrustes""$logfile_name" 
+    ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "gplvm_all" &> "GPAll""$logfile_name"
+    ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "gplvm_red" &> "RPReduced""$logfile_name"
     cd ../..
 }
 #-----------------------------------------------------------#
