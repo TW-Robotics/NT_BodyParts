@@ -90,7 +90,10 @@ y_looper=0
 for i in range(0,len(selection)):
     img=np.loadtxt('./Heatmaps/'+str(selection[i])+'.csv',delimiter=',')
     pImg = getPimage(img,k)   #Get the p value image
-    arr[x_looper].imshow(addBorder((pImg<alpha).astype(float)),cmap='gray')
+    mask = (pImg<alpha).astype(np.int8)
+    res = cv2.bitwise_and(img,img,mask = mask)
+    arr[x_looper].imshow(addBorder(res),cmap='jet')
+    arr[x_looper].text(5,30, "F"+str(selection[i])+" MSK",fontsize=20,color='red')
     arr[x_looper].axis('off')
     x_looper=x_looper+1
     if(x_looper >= plot_top_n[1]):
@@ -102,4 +105,38 @@ for i in range(0,len(selection)):
         f, arr = plt.subplots(1,4)  #Create 'grid' for plot
 os.system("cd Heatmaps; pdfjam row_1.pdf Prow_1.pdf row_2.pdf Prow_3.pdf row_3.pdf Prow_3.pdf --nup 1x6 --landscape --outfile pImg.pdf")
 os.system("cd Heatmaps; pdfcrop --margins '0 0 0 0' --clip pImg.pdf pImg.pdf")
+os.system("cd Heatmaps; rm row*.pdf; rm Prow*.pdf")
+#----------------------------#
+#--- Technical background ---#
+#----------------------------#
+selection = np.setdiff1d(np.array((range(0,11))), selection)[0:4]   #According to paper, the technical background 
+f, arr = plt.subplots(1,4)  #Create 'grid' for plot
+x_looper=0
+y_looper=0
+for i in range(0,len(selection)):
+    img=np.loadtxt('./Heatmaps/'+str(selection[i])+'.csv',delimiter=',')
+    arr[x_looper].imshow(img,cmap='jet')
+    arr[x_looper].text(5,30, "F"+str(selection[i]),fontsize=20,color='red')
+    arr[x_looper].axis('off')
+    x_looper=x_looper+1
+plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
+plt.savefig("./Heatmaps/row_"+str(y_looper)+".pdf",bbox_inches = 'tight',pad_inches = 0)
+os.system("pdfcrop --margins '0 0 0 0' --clip ./Heatmaps/row_"+str(y_looper)+".pdf ./Heatmaps/row_"+str(y_looper)+".pdf")
+f, arr = plt.subplots(1,4)  #Create 'grid' for plot
+x_looper=0
+for i in range(0,len(selection)):
+    img=np.loadtxt('./Heatmaps/'+str(selection[i])+'.csv',delimiter=',')
+    pImg = getPimage(img,k)   #Get the p value image
+    mask = (pImg<alpha).astype(np.int8)
+    res = cv2.bitwise_and(img,img,mask = mask)
+    arr[x_looper].imshow(addBorder(res),cmap='jet')
+    arr[x_looper].text(5,30, "F"+str(selection[i])+" MSK",fontsize=20,color='red')
+    arr[x_looper].axis('off')
+    x_looper=x_looper+1
+plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
+#plt.show()
+plt.savefig("./Heatmaps/Prow_"+str(y_looper)+".pdf",bbox_inches = 'tight',pad_inches = 0)
+os.system("pdfcrop --margins '0 0 0 0' --clip ./Heatmaps/Prow_"+str(y_looper)+".pdf ./Heatmaps/Prow_"+str(y_looper)+".pdf")
+os.system("cd Heatmaps; pdfjam row_0.pdf Prow_0.pdf --nup 1x2 --landscape --outfile TB_pImg.pdf")
+os.system("cd Heatmaps; pdfcrop --margins '0 0 0 0' --clip TB_pImg.pdf TB_pImg.pdf")
 os.system("cd Heatmaps; rm row*.pdf; rm Prow*.pdf")
