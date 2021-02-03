@@ -161,47 +161,47 @@ f2move=[fnam for fnam in os.listdir(logdir) if fnmatch.fnmatch(fnam, '*_allpredr
 for fnam in f2move:
     os.replace(logdir+fnam, resdir+fnam)
 
-## we may now analyse the bootstrap resampled features
-allflsmpdx=pd.read_csv(indatadir+id4resample, header=None, sep=" ").to_numpy()
-print("Randomisation by bootstrap selected!")
-if doprocrustes:
-    lognambase="rsmp_prc_it{0}_"
-    fnambase=ssdir+"prc_rsmp_{0}.txt"
-elif dogplvmall:
-    lognambase="rsmp_gpall_it{0}_"
-    fnambase=ssdir+"gpall_rsmp_{0}.txt"
-else:
-    lognambase="rsmp_gpred_it{0}_"
-    fnambase=ssdir+"gpred_rsmp_{0}.txt"
-
-## we may now loop over the resampling iterations
-nresample= allflsmpdx.shape[1]  ## number of resampling indices
-for cit in range(nresample):
-    print("Doing procrustes resample iteration {0}".format(cit))
-    ## first step: we prepare the data by applying the resampling
-    csmpdx=allflsmpdx[:,cit]
-    Xcit=X[csmpdx,:]
-    ycit=y[csmpdx]
-    ycit.shape=(len(ycit),1)
-    data=pd.DataFrame(np.concatenate((Xcit,ycit), axis=1))
-    cnams=list(data)
-    nocols=len(cnams)
-    data=data.astype({cnams[nocols-1]:"int32"})
-    fnam=fnambase.format(cit)
-    ## np.savetxt(fnam, data, delimiter=" ") -> does not work because
-    ## we need integer class labels hence the pandas route!
-    data.to_csv(fnam, sep=' ', index=False, header=False) ## produce a data file which is compatible with Neals HMC.
-    lognambs=lognambase.format(cit)
-    ## call neal sampling
-    ##sbp.call('./runardnet.sh', '-h', "{0}".format(nohidden), '-a', "{0}".format(ardlevel),
-    ##         '-f', "{0}".format(nofolds), '-m', "{0}".format(maxthreads),
-    ##         '-n', "{0}".format(hmciter), '-i', fnam, '-d', logdir, '-l', lognambs,
-    ##         '-z', 'Y', '-s', 'N')
-    sbp.call('./runardnet.sh -h '+"{0}".format(nohidden) + ' -a '+"{0}".format(ardlevel) +
-             ' -f '+ "{0}".format(nofolds) + ' -m '+ "{0}".format(maxthreads)+
-             ' -n '+ "{0}".format(hmciter)+ ' -i '+ fnam+ ' -d '+ logdir+ ' -l '+ lognambs+
-             ' -z '+ 'Y'+ ' -s '+ 'N', shell=True)
-
+### we may now analyse the bootstrap resampled features
+#allflsmpdx=pd.read_csv(indatadir+id4resample, header=None, sep=" ").to_numpy()
+#print("Randomisation by bootstrap selected!")
+#if doprocrustes:
+#    lognambase="rsmp_prc_it{0}_"
+#    fnambase=ssdir+"prc_rsmp_{0}.txt"
+#elif dogplvmall:
+#    lognambase="rsmp_gpall_it{0}_"
+#    fnambase=ssdir+"gpall_rsmp_{0}.txt"
+#else:
+#    lognambase="rsmp_gpred_it{0}_"
+#    fnambase=ssdir+"gpred_rsmp_{0}.txt"
+#
+### we may now loop over the resampling iterations
+#nresample= allflsmpdx.shape[1]  ## number of resampling indices
+#for cit in range(nresample):
+#    print("Doing procrustes resample iteration {0}".format(cit))
+#    ## first step: we prepare the data by applying the resampling
+#    csmpdx=allflsmpdx[:,cit]
+#    Xcit=X[csmpdx,:]
+#    ycit=y[csmpdx]
+#    ycit.shape=(len(ycit),1)
+#    data=pd.DataFrame(np.concatenate((Xcit,ycit), axis=1))
+#    cnams=list(data)
+#    nocols=len(cnams)
+#    data=data.astype({cnams[nocols-1]:"int32"})
+#    fnam=fnambase.format(cit)
+#    ## np.savetxt(fnam, data, delimiter=" ") -> does not work because
+#    ## we need integer class labels hence the pandas route!
+#    data.to_csv(fnam, sep=' ', index=False, header=False) ## produce a data file which is compatible with Neals HMC.
+#    lognambs=lognambase.format(cit)
+#    ## call neal sampling
+#    ##sbp.call('./runardnet.sh', '-h', "{0}".format(nohidden), '-a', "{0}".format(ardlevel),
+#    ##         '-f', "{0}".format(nofolds), '-m', "{0}".format(maxthreads),
+#    ##         '-n', "{0}".format(hmciter), '-i', fnam, '-d', logdir, '-l', lognambs,
+#    ##         '-z', 'Y', '-s', 'N')
+#    sbp.call('./runardnet.sh -h '+"{0}".format(nohidden) + ' -a '+"{0}".format(ardlevel) +
+#             ' -f '+ "{0}".format(nofolds) + ' -m '+ "{0}".format(maxthreads)+
+#             ' -n '+ "{0}".format(hmciter)+ ' -i '+ fnam+ ' -d '+ logdir+ ' -l '+ lognambs+
+#             ' -z '+ 'Y'+ ' -s '+ 'N', shell=True)
+#
 ## we may now copy the collected results from logdir to resdir
 f2move=[fnam for fnam in os.listdir(logdir) if fnmatch.fnmatch(fnam, '*_allpredres.csv') or fnmatch.fnmatch(fnam, '*_allardres.csv')]
 for fnam in f2move:

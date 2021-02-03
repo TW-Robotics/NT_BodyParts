@@ -27,7 +27,7 @@
 import numpy as np
 import pandas as pd
 import copy 
-resdir="./resdata/" ## location of results files
+resdir="./Data/resdata/" ## location of results files
 
 ## we have patterns for the different input data 
 ## 1) procrustes landmarks
@@ -52,30 +52,34 @@ allardfnam={
     "netgpselshfl":"rshfl_gpred_it{0}__allardres.csv",         # 14 selected gplvm reshuffled mlp hmc
     "netgpselboot":"rsmp_gpred_it{0}__allardres.csv",          # 14 selected gplvm bootstrapped mlp hmc
     "gpcgpselshfl":"rshfl_gpred_gpc_it{0}_allardres.csv",      # 14 selected gplvm reshuffled gpc
-    "gpcgpselboot":"rsmp_gpred_gpc_it{0}_allardres.csv",       # 14 selected gplvm bootstrapped gpc
+    #"gpcgpselboot":"rsmp_gpred_gpc_it{0}_allardres.csv",       # 14 selected gplvm bootstrapped gpc
     "gpcgptopshfl":"rshfl_gpall_gpc_it{0}_allardres.csv",      # 14 top gplvm reshuffled gpc
-    "gpcgptopboot":"rsmp_gpall_gpc_it{0}_allardres.csv",       # 14 top gplvm bootstrapped gpc
+    #"gpcgptopboot":"rsmp_gpall_gpc_it{0}_allardres.csv",       # 14 top gplvm bootstrapped gpc
     "gpcprcshfl": "rshfl_prc_gpc_it{0}_allardres.csv",         # reshuffled procrustes gpc
-    "gpcprcboot": "rsmp_prc_gpc_it{0}_allardres.csv",          # bootstrapped procrustes gpc
+    #"gpcprcboot": "rsmp_prc_gpc_it{0}_allardres.csv",          # bootstrapped procrustes gpc
     "cnnshfl":"",                                              # reshuffled cnn (convolutional deep no ARD)
-    "cnnboot":""                                               # bootstrapped cnn (convolutional deep no ARD)
+    #"cnnboot":""                                               # bootstrapped cnn (convolutional deep no ARD)
 }
 ## Patterns for probabilities true labels and predictions
 allpredfnam={
-    "netprcshfl":"rshfl_prc_it{0}__resparse2predictions.csv",      # reshuffled procrustes mlp hmc
-    "netprcboot":"rsmp_prc_it{0}__resparse2predictions.csv",       # bootstrapped procrustes mlp hmc
-    "netgptopshfl":"rshfl_gpall_it{0}__resparse2predictions.csv",  # 14 top gplvm reshuffled mlp hmc
-    "netgptopboot":"rsmp_gpall_it{0}__resparse2predictions.csv",   # 14 top gplvm bootstrapped mlp hmc
-    "netgpselshfl":"rshfl_gpred_it{0}__resparse2predictions.csv",  # 14 selected gplvm reshuffled mlp hmc 
-    "netgpselboot":"rsmp_gpred_it{0}__resparse2predictions.csv",   # 14 selected gplvm bootstrapped mlp hmc
+    #"netprcshfl":"rshfl_prc_it{0}__allpreds.csv",      # reshuffled procrustes mlp hmc
+    #"netprcboot":"rsmp_prc_it{0}__allpreds.csv",       # bootstrapped procrustes mlp hmc
+    #"netgptopshfl":"rshfl_gpall_it{0}__allpreds.csv",  # 14 top gplvm reshuffled mlp hmc
+    "netprcshfl":"rshfl_prc_it{0}__allpredres.csv",      # reshuffled procrustes mlp hmc
+    "netprcboot":"rsmp_prc_it{0}__allpredres.csv",       # bootstrapped procrustes mlp hmc
+	"netgptopshfl":"rshfl_gpall_it{0}__allpredres.csv",  # 14 top gplvm reshuffled mlp hmc
+
+    "netgptopboot":"rsmp_gpall_it{0}__allpredres.csv",   # 14 top gplvm bootstrapped mlp hmc
+    "netgpselshfl":"rshfl_gpred_it{0}__allpredres.csv",  # 14 selected gplvm reshuffled mlp hmc 
+    "netgpselboot":"rsmp_gpred_it{0}__allpredres.csv",   # 14 selected gplvm bootstrapped mlp hmc
     "gpcgpselshfl":"rshfl_gpred_gpc_it{0}_allpreds.csv",           # 14 selected golvm reshuffled gpc
-    "gpcgpselboot":"rsmp_gpred_gpc_it{0}_allpreds.csv",            # 14 selected gplvm bootstrapped gpc
+    #"gpcgpselboot":"rsmp_gpred_gpc_it{0}_allpreds.csv",            # 14 selected gplvm bootstrapped gpc
     "gpcgptopshfl":"rshfl_gpall_gpc_it{0}_allpreds.csv",           # 14 top golvm reshuffled gpc
-    "gpcgptopboot":"rsmp_gpall_gpc_it{0}_allpreds.csv",            # 14 top gplvm bootstrapped gpc
+    #"gpcgptopboot":"rsmp_gpall_gpc_it{0}_allpreds.csv",            # 14 top gplvm bootstrapped gpc
     "gpcprcshfl":"rshfl_prc_gpc_it{0}_allpreds.csv",               # reshuffled procrustes gpc
-    "gpcprcboot":"rsmp_prc_gpc_it{0}_allpreds.csv",                # bootstrapped procrustes gpc
+    #"gpcprcboot":"rsmp_prc_gpc_it{0}_allpreds.csv",                # bootstrapped procrustes gpc
     "cnnshfl":"rshfl_cnn_it{0}_allpreds.csv",                      # reshuffled cnn (convolutional deep learning)
-    "cnnboot":"rsmp_cnn_it{0}_allpreds.csv"                        # bootstrapped cnn (convolutional deep learning)
+    #"cnnboot":"rsmp_cnn_it{0}_allpreds.csv"                        # bootstrapped cnn (convolutional deep learning)
 }
 ## legends for plots and tables
 legs2features={
@@ -86,13 +90,13 @@ legs2features={
     "netgpselshfl":"Sel GP-LVM",
     "netgpselboot":"Sel GP-LVM",
     "gpcgpselshfl":"Sel GP-LVM",        
-    "gpcgpselboot":"Sel GP-LVM",  
+    #"gpcgpselboot":"Sel GP-LVM",  
     "gpcgptopshfl":"Top GP-LVM", 
-    "gpcgptopboot":"Top GP-LVM",  
+    #"gpcgptopboot":"Top GP-LVM",  
     "gpcprcshfl":"GPA",     
-    "gpcprcboot":"GPA",      
+    #"gpcprcboot":"GPA",      
     "cnnshfl":"Deep CNV",            
-    "cnnboot":"Deep CNV"              
+    #"cnnboot":"Deep CNV"              
 }
 ## map keys to sampling methods
 legs2sampling={
@@ -103,13 +107,13 @@ legs2sampling={
     "netgpselshfl":"Reshuffled",
     "netgpselboot":"Bootstrapped",
     "gpcgpselshfl":"Reshuffled",        
-    "gpcgpselboot":"Bootstrapped",  
+    #"gpcgpselboot":"Bootstrapped",  
     "gpcgptopshfl":"Reshuffled", 
-    "gpcgptopboot":"Bootstrapped",  
+    #"gpcgptopboot":"Bootstrapped",  
     "gpcprcshfl":"Reshuffled",     
-    "gpcprcboot":"Bootstrapped",      
+    #"gpcprcboot":"Bootstrapped",      
     "cnnshfl":"Reshuffled",            
-    "cnnboot":"Bootstrapped"              
+    #"cnnboot":"Bootstrapped"              
 }
 ## map keys to classification method
 legs2method={
@@ -120,13 +124,13 @@ legs2method={
     "netgpselshfl":"HMC-MLP",
     "netgpselboot":"HMC-MLP",
     "gpcgpselshfl":"GPC",        
-    "gpcgpselboot":"GPC",
+    #"gpcgpselboot":"GPC",
     "gpcgptopshfl":"GPC",
-    "gpcgptopboot":"GPC",
+    #"gpcgptopboot":"GPC",
     "gpcprcshfl":"GPC",
-    "gpcprcboot":"GPC",
+    #"gpcprcboot":"GPC",
     "cnnshfl":"CNN",
-    "cnnboot":"CNN"
+    #"cnnboot":"CNN"
 }
 infomap={"ardfnam":allardfnam, "predfnam":allpredfnam,
          "inputtype":legs2features, "resampling":legs2sampling,
@@ -222,7 +226,7 @@ def readhmc_classpreds(fname):
     res['ttarg']=data['ttarg'].tolist()
     res['ptarg']=data['ptarg'].tolist()
     ## all columns from 2 to the last contain the probabilities
-    Post=data.iloc[:,2:].to_numpy()
+    Post=data.iloc[:,2:]#.to_numpy()
     ## in case Post has only one column, it represents Probabilities
     ## for class '1' and class '0' has probability 1-P.
     twoclass=Post.shape[1]==1
@@ -514,7 +518,7 @@ def info_sel2keys(infodf, sel):
         if type(vals) != type([]):
             vals=[vals]
         ## extract data from infodf
-        ccol=infodf[key].to_numpy()
+        ccol=infodf[key]#.to_numpy()
         for val in vals:
             csel=np.logical_or(csel, ccol==val)
         if first:
