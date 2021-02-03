@@ -228,6 +228,9 @@ if __name__ == "__main__":
             ## we have separate training and test instances accpording
             ## to numin.html we may use negative indices:
             ## @-<from>:<to> to exclude samples from training
+            
+            cwd = os.getcwd()
+            print("data-spec called in {0}".format(cwd))
             if isclass:
                 ## solution for classification
                 print(["data-spec", clgfnam, "{0}".format(noin), "{0}".format(noout),
@@ -292,8 +295,9 @@ if __name__ == "__main__":
         ## we also write target and noout.
         log4parsenam=lognambase+"_resparse.txt"
         ## we have still got to adjust noout in case we have a multiclass problem:
+        ninoutres=noout
         if target=="class":
-            noout=maxint
+            ninoutres=maxint
         with open(log4parsenam,"w") as of:
             of.write("RESDIR:\t{0}\n".format(resdir))     ## directory with results
             of.write("PREDS:\t{0}\n".format(predstail))   ## pattern for pterdiction files
@@ -302,8 +306,7 @@ if __name__ == "__main__":
             of.write("LOGFILES:\t{0}\n".format(",".join(allmclogs))) ## comma separated list of log file names of simulation
             of.write("BURNIN:\t{0}\n".format(hmc_burnin)) ## we discard 25% of the samples. (Here for assessing ARD)
             of.write("TARGS:\t{0}\n".format(target))      ## txype of target
-            of.write("MEANCOLS:\t{0}\n".format(noout))    ## columns of predictions (1 for regression and binary classification and no of classes in miulticlass)
-
+            of.write("MEANCOLS:\t{0}\n".format(ninoutres))    ## columns of predictions (1 for regression and binary classification and no of classes in miulticlass)
 
 
 if 0:
