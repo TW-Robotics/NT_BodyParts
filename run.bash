@@ -218,7 +218,7 @@ doHMC() {
     logfile_name="_$(date '+%Y%m%d_%H%M_HMC.log')"
     ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "procrustes" &> "procrustes""$logfile_name" 
     ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "gplvm_all" &> "GPAll""$logfile_name"
-    ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "gplvm_red" &> "RPReduced""$logfile_name"
+    ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "gplvm_red" &> "GPReduced""$logfile_name"
     cd ../..
 }
 #-----------------------------------------------------------#
@@ -272,6 +272,26 @@ removeData() {
     cd ./CNN/Visualization
     rm -rf ./test ./train ./AUG_* ./noAUG_*
     rm -rf *.csv *.log
+    cd ../..
+    #--------------------#
+    #--- Vizualization --#
+    #--------------------#
+    cd ./Vizualizations/ResultVisualization
+    rm -rf data
+    rm -rf resdata
+    rm *pdf
+    rm *.csv
+    rm *.log
+    cd ../RelevanceHeatmap
+    rm *.pdf
+    rm *.log
+    cd ../ResultVisualization
+    rm -rf __pycache__
+    rm -rf resdata
+    rm -rf res_GPC_CNN
+    rm -rf res_HMC
+    rm *.pdf
+    rm *.log
     cd ../..
 }
 #-----------------------#
