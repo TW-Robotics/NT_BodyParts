@@ -83,7 +83,7 @@ pdf("./RawProcrustes.pdf")
 par(family='serif')
 plot(NA, 
      xlim=c(min.val.x,max.val.x), ylim = c(min.val.y,max.val.y),
-     xlab="X Coordinate",ylab = "Inverted Y Coordinate", main = "Procrustes Analysis"
+     xlab="X Coordinate",ylab = "Inverted Y Coordinate"#, main = "Procrustes Analysis"
      )
 if(!eigen.analysis){
   abline(v=seq(-2000,2000,by = 500),h = seq(-2000,2000,by = 250),col='gray')  
