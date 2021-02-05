@@ -1,16 +1,3 @@
-#TODO: 
-# Installation scripts: done (2.1.2021)
-# GP-LVM: done (3.1.2021)
-# GP-LVM Visualization: done (6.1.2021)
-# GPC: done (4/5.1.2021)
-# Convert GPC output: done (5.1.2021)
-# CNN + VIS: done (8.1.2021)
-# Neals HMC: done (11.1.2021) TODO: Testing
-# p-val image
-# Redo CNN
-# Procrustes
-# Vis scripts
-
 # run.sh is used to control the data processing flow of the publication
 # ''Assessing Ethiopian Nile Tilapia physiognomy with machine learning'' by
 # Wilfried Wöber, Papius Tibihika, Paul Meulenbroek, Esayas Alemayehu, Lars Mehnen,
@@ -221,12 +208,25 @@ doHMC() {
     ../../Python/VE/bin/python hmc_mlp_4_tilapia.py "gplvm_red" &> "GPReduced""$logfile_name"
     cd ../..
 }
+#------------------------------------------------------------#
+# Descr: Calculates the procrustes based on the landmarks ---#
+#------------------------------------------------------------#
+doProcrustes() {
+    echo "Calculate Procrustes unsing R (default - uncomment if R is not installed)"
+    logfile_name="./$(date '+%Y%m%d_%H%M_GPA.log')"
+    cd ./Procrustes 
+    Rscript Procrustes.R &> $logfile_name
+    echo "Calculate Procrustes unsing Python"
+    ../Python/VE/bin/python Procrustes.py &>> $logfile_name
+    cd ..
+    
+}
 #-----------------------------------------------------------#
 # Descr.:  This function prints the usage of this script.   #
 #-----------------------------------------------------------#
 usage() { 
-	echo "Usage: bash run.sh [-I] [-G] [-g] [-C] [-c] [-N] [-n] [-R]" 1>&2 
-    printf "\t I... Install framework in VE\n\t i... Install R. Neals package\n\t G... Do GP-LVM\n\t g... Estimate GP-LVM features\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t n... Estimate CNN visualization\n\t R... Remove all installed and estimated files\n"
+	echo "Usage: bash run.sh [-I] [-G] [-g] [-P] [-C] [-c] [-N] [-n] [-R]" 1>&2 
+    printf "\t I... Install framework in VE\n\t i... Install R. Neals package\n\t G... Do GP-LVM\n\t g... Estimate GP-LVM features\n\t P... Do GPA (Procrustes extraction)\n\t C... Apply GPC to data\n\t c... Apply HMC to data\n\t N... Apply CNN classification\n\t n... Estimate CNN visualization\n\t R... Remove all installed and estimated files\n"
     exit 1; 
 }
 
@@ -307,7 +307,7 @@ fi
 #--- Check parameters and perform given task ---#
 #installNeal
 checkInstallation   #Initially, we check if everything is installed
-while getopts 'IiGgCcNnR' OPTION
+while getopts 'IiGgCcNnRP' OPTION
 do
     case "$OPTION" in
         I)
@@ -336,6 +336,9 @@ do
             ;;
         R)
             removeData #Remove all estimated and installed files
+            ;;
+        P)
+        doProcrustes #Estimate procrustes
             ;;
         *)
             usage
