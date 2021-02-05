@@ -6,7 +6,7 @@ def plotHeatmaps(relevance,Classifier,printpostfix):
     invSelection	= "../../Data/unselectedFeatures.csv"
     Selection           = np.loadtxt(invSelection,   delimiter=",",dtype=int)   #selection of features
     #relevance       = "../PieVisualization/GPCData/ranking_BGPLVM_noResampling_manual.csv"#  "../../../20200923_Figures_Addon/Pies_GPC/ranking_BGPLVM_noResampling_manual.csv"
-    RelevanceRanking    = np.loadtxt(relevance,   delimiter=" ",dtype=float)    #Estimated relevance rank
+    RelevanceRanking    = np.loadtxt(relevance,   delimiter=",",dtype=float)    #Estimated relevance rank
     #---------------------#
     #--- Load heatmaps ---#
     #---------------------#
@@ -29,9 +29,11 @@ def plotHeatmaps(relevance,Classifier,printpostfix):
 #----------------------#
 #--- Create for GPC ---#
 #----------------------#
-plotHeatmaps("../PieVisualization/GPCData/ranking_BGPLVM_noResampling_manual.csv", "GPC", "_GPC_")
+#plotHeatmaps("../PieVisualization/GPCData/ranking_BGPLVM_noResampling_manual.csv", "GPC", "_GPC_")
+plotHeatmaps("../PieVisualization/ranking_BGPLVM_noResampling_manual.csv", "GPC", "_GPC_")
 #--------------------#
 #--- Same for HMC ---#
 #--------------------#
-plotHeatmaps("../PieVisualization/HMCData/ranking_BGPLVM_NoReplace.csv", "HMC", "_HMC_")
+#plotHeatmaps("../PieVisualization/HMCData/ranking_BGPLVM_NoReplace.csv", "HMC", "_HMC_")
+plotHeatmaps("../PieVisualization/ranking_HMC_BGPLVM_noResampling_manual.csv", "HMC", "_HMC_")
 os.system("ls | grep pdf | while read line; do pdfcrop --margins '0 0 0 0' --clip $line $line; done")
