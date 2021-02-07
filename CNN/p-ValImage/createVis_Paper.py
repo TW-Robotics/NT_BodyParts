@@ -20,51 +20,6 @@ import cv2
 #----------------------#
 populations = ('Chamo','Hawassa','Koka','Lan','Tana','Ziway')
 enumerations = ('a', 'b', 'c', 'd', 'e', 'f')
-#MODE = int(sys.argv[1])    #Mode: 0... Write text in top lef, 1... write (a), (b), ... under image 2, 2... write a), b), ... under image 1
-##----------------------------------#
-##--- Create main classification ---#
-##----------------------------------#
-#path_results="../Classification/Augmented/"
-#tries = range(0,10) #Iterations
-#folds = range(0,10) #k-fold cross validation
-#for ITERATION in tries:         #Iteration loop
-#    for K in folds:             #k-fold loop
-#        looper = 0
-#        for pop in populations: #Population loop
-#            img     = np.load(path_results+'test_'+str(ITERATION)+'_'+str(K)+'/'+pop+'.npy')
-#            img_LRP = np.load(path_results+'test_'+str(ITERATION)+'_'+str(K)+'/'+pop+'_LRP_10.npy')
-#            img_GRD = np.load(path_results+'test_'+str(ITERATION)+'_'+str(K)+'/'+pop+'_grad.npy')
-#            #--- Plot samples ---#
-#            f, arr = plt.subplots(1,3)  #All 3 in a row
-#            if(MODE==0):    #Write text in image
-#                arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-#                arr[0].text(5,30, pop if pop != 'Lan' else 'Langano' ,fontsize=20,color='red')
-#            elif(MODE==2):
-#                arr[0].imshow(img, cmap='gray')
-#                arr[0].set_xticks([]); arr[0].set_yticks([]); arr[0].set_xlabel(enumerations[looper]+')',size=20);
-#                looper = looper+1
-#            else:
-#                arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-#            if(MODE == 1):  #Write enumeration undter image
-#                arr[1].imshow(img_LRP);arr[1].set_xticks([]); arr[1].set_yticks([]); arr[1].set_xlabel('('+enumerations[looper]+')',size=20);
-#                looper = looper+1
-#            else:
-#                arr[1].imshow(img_LRP);arr[1].axis('off')
-#            arr[2].imshow(img_GRD);arr[2].axis('off')
-#            plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-#            #plt.show()
-#            plt.savefig(pop+".pdf",bbox_inches = 'tight',pad_inches = 0)
-#            plt.close()
-#            os.system("pdfcrop --margins '0 0 0 0' --clip "+pop+".pdf "+ pop+".pdf")
-#        #--- Combine plots ---#
-#        os.system("pdfjam Chamo.pdf Hawassa.pdf Koka.pdf Lan.pdf Tana.pdf Ziway.pdf --nup 1x6 --landscape --outfile "+str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+".pdf")
-#        os.system("pdfcrop --margins '0 0 0 0' --clip "+str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+".pdf "+str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+".pdf")
-#        os.system("rm Chamo.pdf Hawassa.pdf Koka.pdf Lan.pdf Tana.pdf Ziway.pdf")
-##----------------------------#
-##--- Move generated plots ---#
-##----------------------------#
-#os.system("mkdir VIS_best")
-#os.system("mv *.pdf VIS_best/.")
 #---------------------------------------#
 #--- Specimen spurious visualization ---#
 #---------------------------------------#
