@@ -73,5 +73,19 @@ The GPA (Procrustes) are estimated using two scripts. You will find the script u
 ## Visualization
 The visualization of our results (pie charts, rank heatmaps, classification accuracy, mutual information and McNemar tests) are automatically generated usign the run script in the Visualization folder. You have to run all models before the vizualization will work properly.
 
+Following results were generated with this package: (The images were converted from pdf to png)
+
+Rank images: 
+| Rank 1| Rank 2   |
+:-------------------------:|:-------------------------:
+![GPC Rank 1](Data/results/0_GPC.png) | ![GPC Rank 2](Data/results/1_GPC.png)
+![HMC Rank 1](Data/results/0_HMC.png) | ![HMC Rank 2](Data/results/1_HMC.png)
+
+Model comparison:
+![Accuracy comparison](Data/results/tilapia_genacc.png)
+![Mutual information](Data/results/tilapia_mutinf.png)
+![McNemar Test](Data/results/tilapia_mcnemar.png)
+
+
 # Usage of this software
 You are free to use this software (see licence) or parts of this software. If you use parts of our package, please cite our paper.
