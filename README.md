@@ -89,3 +89,15 @@ Model comparison:
 
 # Usage of this software
 You are free to use this software (see licence) or parts of this software. If you use parts of our package, please cite our paper.
+
+```
+@article{WoeberEtAl,
+    author = {Wilfried W\"ober and Manuel Curto and Papius Tibihika and Paul Meulenbroek and Esayas Alemayehu and Lars Mehnen and Harald Meimberg and Peter Sykacek},
+    journal = {PLOS ONE},
+    title = {Assessing Ethiopian Nile Tilapia Physiognomy with Machine Learning},
+    year = {2021},
+    month = {},
+    volume = {},
+    pages = {},
+    
+```
