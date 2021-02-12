@@ -20,7 +20,6 @@ import cv2
 #----------------------#
 populations = ('Chamo','Hawassa','Koka','Lan','Tana','Ziway')
 enumerations = ('a', 'b', 'c', 'd', 'e', 'f')
-MODE = 0
 #---------------------------------------#
 #--- Specimen spurious visualization ---#
 #---------------------------------------#
@@ -28,7 +27,7 @@ MODE = 0
 ## samples from the CNN result. We manually selected
 ## sample, where we found spurious CNN decisions.
 alpha=0.001
-pImg_k=1000
+pImg_k=10000
 iteration = "0"     #We just analyse the very first iteration
 names = ('Ziway', 'Ziway', 'Tana', 'Langano', 'Koka', 'Koka')   #Names of spurious specimens
 ID    = ('38',    '35',    '24',   '25',      '27',   '03')     #Inherent ID
@@ -64,7 +63,8 @@ for i in range(0,len(names)):
     #LRP
     f, arr = plt.subplots(1,3)  #All 3 in a row
     arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-    arr[0].text(5,30, names[i]+ID[i],fontsize=20,color='red')
+    #arr[0].text(5,30, names[i]+ID[i],fontsize=20,color='red')
+    arr[0].text(5,30, names[i],fontsize=20,color='red')
     arr[1].imshow(img_LRP);arr[1].axis('off')
     img_RGB[:,:,0]=img_RGB[:,:,2]+VIZ.addBorder(np.multiply(pImg_LRP<alpha,img))
     arr[2].imshow(img_RGB);arr[2].axis('off')
@@ -76,7 +76,8 @@ for i in range(0,len(names)):
     #Grad-CAM
     f, arr = plt.subplots(1,3)  #All 3 in a row
     arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-    arr[0].text(5,30, names[i]+ID[i],fontsize=20,color='red')
+    #arr[0].text(5,30, names[i]+ID[i],fontsize=20,color='red')
+    arr[0].text(5,30, names[i],fontsize=20,color='red')
     arr[1].imshow(img_GRD_raw);arr[1].axis('off')
     img_RGB2[:,:,0]=img_RGB2[:,:,2]+VIZ.addBorder(np.multiply(pImg_GRD<alpha,img))
     arr[2].imshow(img_RGB2);arr[2].axis('off')
@@ -97,110 +98,118 @@ os.system("mkdir anomaly; mv LRP_anomal.pdf anomaly/.; mv GRD_anomal.pdf anomaly
 #------------------------------------#
 #--- Create plots for best models ---#
 #------------------------------------#
-iterations = range(0,10)
-k_folds = range(0,10)
-for ITERATION in iterations:
-    for K in k_folds:
-        looper=0
-        for CLASS in populations:
-            plt.close()     #Close existing plots
-            img     = np.load(  "../Classification/Augmented/test_"+
-                                str(ITERATION)+"_"+str(K)+"/"+CLASS+'.npy')
-            img_LRP  = np.load(  "../Classification/Augmented/test_"+
-                                str(ITERATION)+"_"+str(K)+"/"+CLASS+'_LRP_10.npy')
-            img_GRD  = np.load(  "../Classification/Augmented/test_"+
-                                str(ITERATION)+"_"+str(K)+"/"+CLASS+'_grad.npy')
-            img_RGB = img.copy()
-            img_RGB2 = img.copy()
-            img     = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-            img_GRD_raw = img_GRD.copy()
-            img_GRD_raw = img_GRD.copy()
-            #--- Conversion from heatmap to grayscale image ---#
-            img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_RGB2LUV) 
-            img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_BGR2GRAY) 
-            #--- Get p-val images ---#
-            pImg_GRD=VIZ.getPimage(img_GRD,pImg_k)  #Get p-value image
-            pImg_LRP=VIZ.getPimage(img_LRP,pImg_k)  #Get p-value image
-            #---------------------#
-            #--- Create images ---#
-            #---------------------#
-            #LRP
-            f, arr = plt.subplots(1,3)  #All 3 in a row
-            if(MODE == 0):
+for MODE in range(0,3):
+    #MODE = 2
+    iterations = range(0,10)
+    k_folds = range(0,10)
+    for ITERATION in iterations:
+        for K in k_folds:
+            looper=0
+            for CLASS in populations:
+                plt.close()     #Close existing plots
+                img     = np.load(  "../Classification/Augmented/test_"+
+                                    str(ITERATION)+"_"+str(K)+"/"+CLASS+'.npy')
+                img_LRP  = np.load(  "../Classification/Augmented/test_"+
+                                    str(ITERATION)+"_"+str(K)+"/"+CLASS+'_LRP_10.npy')
+                img_GRD  = np.load(  "../Classification/Augmented/test_"+
+                                    str(ITERATION)+"_"+str(K)+"/"+CLASS+'_grad.npy')
+                img_RGB = img.copy()
+                img_RGB2 = img.copy()
+                img     = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+                img_GRD_raw = img_GRD.copy()
+                img_GRD_raw = img_GRD.copy()
+                #--- Conversion from heatmap to grayscale image ---#
+                img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_RGB2LUV) 
+                img_GRD = cv2.cvtColor(img_GRD, cv2.COLOR_BGR2GRAY) 
+                #--- Get p-val images ---#
+                pImg_GRD=VIZ.getPimage(img_GRD,pImg_k)  #Get p-value image
+                pImg_LRP=VIZ.getPimage(img_LRP,pImg_k)  #Get p-value image
+                #---------------------#
+                #--- Create images ---#
+                #---------------------#
+                #LRP
+                f, arr = plt.subplots(1,3)  #All 3 in a row
+                if(MODE == 0):
+                    arr[0].imshow(img, cmap='gray');arr[0].axis('off')
+                    arr[0].text(5,30, CLASS ,fontsize=20,color='red')
+                elif(MODE == 1):
+                    arr[0].imshow(img, cmap='gray')
+                    arr[0].spines['right'].set_visible(False)
+                    arr[0].spines['left'].set_visible(False)
+                    arr[0].spines['top'].set_visible(False)
+                    arr[0].spines['bottom'].set_visible(False)
+                    arr[0].set_xticks([], [])
+                    arr[0].set_yticks([], [])
+                    arr[0].set_xlabel(enumerations[looper]+')',fontsize=18)
+                elif(MODE == 2):
+                    arr[0].imshow(img, cmap='gray');arr[0].axis('off')
+                if(MODE == 2):
+                    arr[1].imshow(img_LRP)
+                    arr[1].spines['right'].set_visible(False)
+                    arr[1].spines['left'].set_visible(False)
+                    arr[1].spines['top'].set_visible(False)
+                    arr[1].spines['bottom'].set_visible(False)
+                    arr[1].set_xticks([], [])
+                    arr[1].set_yticks([], [])
+                    arr[1].set_xlabel('('+enumerations[looper]+')',fontsize=18)
+                else:
+                    arr[1].imshow(img_LRP);arr[1].axis('off')
+                img_RGB[:,:,0]=img_RGB[:,:,2]+VIZ.addBorder(np.multiply(pImg_LRP<alpha,img))
+                arr[2].imshow(img_RGB);arr[2].axis('off')
+                plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
+                plt.savefig(str(ITERATION)+"_"+str(K)+"MODE"+
+                            str(MODE)+"_"+CLASS+"_LRP.pdf",bbox_inches = 'tight',pad_inches = 0)
+                os.system("pdfcrop --margins '0 0 0 0' --clip "+
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_LRP.pdf "+
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_LRP.pdf ")
+                #Grad-CAM
+                f, arr = plt.subplots(1,3)  #All 3 in a row
                 arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-                arr[0].text(5,30, CLASS ,fontsize=20,color='red')
-            elif(MODE == 1):
-                arr[0].imshow(img, cmap='gray')
-                arr[0].spines['right'].set_visible(False)
-                arr[0].spines['left'].set_visible(False)
-                arr[0].spines['top'].set_visible(False)
-                arr[0].spines['bottom'].set_visible(False)
-                arr[0].set_xticks([], [])
-                arr[0].set_yticks([], [])
-                arr[0].set_xlabel(enumerations[looper]+')',fontsize=18)
-            elif(MODE == 2):
-                arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-            if(MODE == 2):
-                arr[1].imshow(img_LRP)
-                arr[1].spines['right'].set_visible(False)
-                arr[1].spines['left'].set_visible(False)
-                arr[1].spines['top'].set_visible(False)
-                arr[1].spines['bottom'].set_visible(False)
-                arr[1].set_xticks([], [])
-                arr[1].set_yticks([], [])
-                arr[1].set_xlabel('('+enumerations[looper]+')',fontsize=18)
-            else:
-                arr[1].imshow(img_LRP);arr[1].axis('off')
-            img_RGB[:,:,0]=img_RGB[:,:,2]+VIZ.addBorder(np.multiply(pImg_LRP<alpha,img))
-            arr[2].imshow(img_RGB);arr[2].axis('off')
-            plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-            plt.savefig(str(ITERATION)+"_"+str(K)+"MODE"+
-                        str(MODE)+"_"+CLASS+"_LRP.pdf",bbox_inches = 'tight',pad_inches = 0)
+                arr[0].text(5,30, CLASS,fontsize=20,color='red')
+                arr[1].imshow(img_GRD_raw);arr[1].axis('off')
+                img_RGB2[:,:,0]=img_RGB2[:,:,2]+VIZ.addBorder(np.multiply(pImg_GRD<alpha,img))
+                arr[2].imshow(img_RGB2);arr[2].axis('off')
+                plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
+                plt.savefig(str(ITERATION)+"_"+str(K)+"MODE"+
+                            str(MODE)+"_"+CLASS+"_GRAD.pdf",bbox_inches = 'tight',pad_inches = 0)
+                os.system("pdfcrop --margins '0 0 0 0' --clip "+
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_GRAD.pdf "+
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_GRAD.pdf ")
+                #--- Prepare next loop ---#
+                looper=looper+1
+            #--------------------#
+            #--- Fuse figures ---#
+            #--------------------#
+            os.system("pdfjam "+ 
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[0]+"_GRAD.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[1]+"_GRAD.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[2]+"_GRAD.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[3]+"_GRAD.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[4]+"_GRAD.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[5]+"_GRAD.pdf "+
+                        "--nup 1x6 --landscape --outfile "+ 
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_GRAD.pdf ")
             os.system("pdfcrop --margins '0 0 0 0' --clip "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_LRP.pdf "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_LRP.pdf ")
-            #Grad-CAM
-            f, arr = plt.subplots(1,3)  #All 3 in a row
-            arr[0].imshow(img, cmap='gray');arr[0].axis('off')
-            arr[0].text(5,30, CLASS,fontsize=20,color='red')
-            arr[1].imshow(img_GRD_raw);arr[1].axis('off')
-            img_RGB2[:,:,0]=img_RGB2[:,:,2]+VIZ.addBorder(np.multiply(pImg_GRD<alpha,img))
-            arr[2].imshow(img_RGB2);arr[2].axis('off')
-            plt.subplots_adjust(wspace=0, hspace=0, left=0, right=1, bottom=0, top=1)
-            plt.savefig(str(ITERATION)+"_"+str(K)+"MODE"+
-                        str(MODE)+"_"+CLASS+"_GRAD.pdf",bbox_inches = 'tight',pad_inches = 0)
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_GRAD.pdf "+
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_GRAD.pdf")
+            os.system("pdfjam "+ 
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[0]+"_LRP.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[1]+"_LRP.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[2]+"_LRP.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[3]+"_LRP.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[4]+"_LRP.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[5]+"_LRP.pdf "+
+                        "--nup 1x6 --landscape --outfile "+ 
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_LRP.pdf ")
             os.system("pdfcrop --margins '0 0 0 0' --clip "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_GRAD.pdf "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+CLASS+"_GRAD.pdf ")
-            #--- Prepare next loop ---#
-            looper=looper+1
-        #--------------------#
-        #--- Fuse figures ---#
-        #--------------------#
-        os.system("pdfjam "+ 
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[0]+"_GRAD.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[1]+"_GRAD.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[2]+"_GRAD.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[3]+"_GRAD.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[4]+"_GRAD.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[5]+"_GRAD.pdf "+
-                    "--nup 1x6 --landscape --outfile "+ 
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_GRAD.pdf ")
-        os.system("pdfcrop --margins '0 0 0 0' --clip "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_GRAD.pdf "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_GRAD.pdf")
-        os.system("pdfjam "+ 
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[0]+"_LRP.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[1]+"_LRP.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[2]+"_LRP.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[3]+"_LRP.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[4]+"_LRP.pdf "+
-                   str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[5]+"_LRP.pdf "+
-                    "--nup 1x6 --landscape --outfile "+ 
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_LRP.pdf ")
-        os.system("pdfcrop --margins '0 0 0 0' --clip "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_LRP.pdf "+
-                    str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_LRP.pdf")
-        #--- Clear iteration ---#
-        for pop in populations:
-            os.system("rm *"+pop+"*.pdf")
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_LRP.pdf "+
+                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_LRP.pdf")
+            #--- Clear iteration ---#
+            for pop in populations:
+                os.system("rm *"+pop+"*.pdf")
+            #End k loop
+            break
+        #end ITERATION loop
+        break
+    os.system("mkdir bestModels")
+    os.system("mv *MODE*pdf bestModels/.")
