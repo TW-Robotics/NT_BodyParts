@@ -212,10 +212,10 @@ doHMC() {
 # Descr: Calculates the procrustes based on the landmarks ---#
 #------------------------------------------------------------#
 doProcrustes() {
-    echo "Calculate Procrustes unsing R (default - uncomment if R is not installed)"
+    #echo "Calculate Procrustes unsing R (default - uncomment if R is not installed)"
     logfile_name="./$(date '+%Y%m%d_%H%M_GPA.log')"
     cd ./Procrustes 
-    Rscript Procrustes.R &> $logfile_name
+    #Rscript Procrustes.R &> $logfile_name
     echo "Calculate Procrustes unsing Python"
     ../Python/VE/bin/python Procrustes.py &>> $logfile_name
     cd ..

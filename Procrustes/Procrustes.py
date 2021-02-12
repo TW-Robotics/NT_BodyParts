@@ -239,7 +239,7 @@ for i in range(0,procrustes.shape[2]):  #Loop over all specimens
     else:
         data=data.append(DF_data,ignore_index=True)
 data=data[targetOrder]  #Get right order
-data.to_csv('PROCRUSTES_DATApy.csv',header=False, index=False)
+data.to_csv('PROCRUSTES_DATA.csv',header=False, index=False)
 #--------------------#
 #--- Plot results ---#
 #--------------------#
