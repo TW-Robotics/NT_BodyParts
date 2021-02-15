@@ -70,7 +70,7 @@ The GPy based GPC is run by the GPC.py script, which does the data pre- and post
 ## HMC
 The implementation of R. Neals HMC is implemented in several scripts, mainly used for data pre-processing and post processing. The results can be found in the resdata folder. All errors are reported to the logfile, which is generated for the installation as well as the classification.
 ## GPA
-The GPA (Procrustes) are estimated using two scripts. You will find the script used in the publication (cran R script) as well as a Python script in the Procrustes folder. If you do not have a valid R installation (including the shapes package), you can comment the line in the run script.
+The GPA (Procrustes) can be estimated using two scripts. You will find the script used in the publication (cran R script) as well as a Python script in the Procrustes folder. If you do not have a valid R installation (including the shapes package), you can use the Python (default) implementation.
 ## Visualization
 The visualization of our results (pie charts, rank heatmaps, classification accuracy, mutual information and McNemar tests) are automatically generated using the run script in the Visualization folder. You have to run all models before the visualization will work properly.
 
