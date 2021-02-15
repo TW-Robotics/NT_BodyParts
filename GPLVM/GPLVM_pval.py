@@ -15,7 +15,7 @@ import cv2
 #--- global infos ---#
 kernel_width = 5 	#Width and height of Gaussian kernel
 kernel_sigma = 0 	#Default, estimated from width
-k=1000			#Number of iterations
+k=10000			#Number of iterations
 alpha = 0.001		#Alpha threshold value
 #-----------------#
 #--- functions ---#
@@ -103,7 +103,7 @@ for i in range(0,len(selection)):
         plt.savefig("./Heatmaps/Prow_"+str(y_looper)+".pdf",bbox_inches = 'tight',pad_inches = 0)
         os.system("pdfcrop --margins '0 0 0 0' --clip ./Heatmaps/Prow_"+str(y_looper)+".pdf ./Heatmaps/Prow_"+str(y_looper)+".pdf")
         f, arr = plt.subplots(1,4)  #Create 'grid' for plot
-os.system("cd Heatmaps; pdfjam row_1.pdf Prow_1.pdf row_2.pdf Prow_3.pdf row_3.pdf Prow_3.pdf --nup 1x6 --landscape --outfile pImg.pdf")
+os.system("cd Heatmaps; pdfjam row_1.pdf Prow_1.pdf row_2.pdf Prow_2.pdf row_3.pdf Prow_3.pdf --nup 1x6 --landscape --outfile pImg.pdf")
 os.system("cd Heatmaps; pdfcrop --margins '0 0 0 0' --clip pImg.pdf pImg.pdf")
 os.system("cd Heatmaps; rm row*.pdf; rm Prow*.pdf")
 #----------------------------#
