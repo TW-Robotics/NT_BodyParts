@@ -20,6 +20,12 @@ echo "Create relevance maps..."
 cd RelevanceHeatmap 
 ../../Python/VE/bin/python RelevanceHeatmaps.py &> HeatmapLog.log
 cd ..
+#--- Create relevance p val images ---#
+echo "Create relevance maps (p-vals)..."
+cd RelevanceHeatmap_pval 
+../../Python/VE/bin/python RelevanceHeatmaps.py &> HeatmapLog.log
+cd ..
+
 #--- Create model comparisons ---#
 echo "Create model comparison plots..."
 cd ResultVisualization

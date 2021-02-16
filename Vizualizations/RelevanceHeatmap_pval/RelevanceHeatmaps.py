@@ -102,21 +102,21 @@ os.system("ls | grep pdf | while read line; do pdfcrop --margins '0 0 0 0' --cli
 #--------------------------#
 #--- Create final image ---#
 #--------------------------#
-ps.system("pdfjam 1_GPC_.pdf 1_GPC_P.pdf --nup 1x2 --landscape --outfile 1.pdf")
-ps.system("pdfjam 0_GPC_.pdf 0_GPC_P.pdf --nup 1x2 --landscape --outfile 0.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip 0.pdf 0.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip 1.pdf 1.pdf")
+os.system("pdfjam 1_GPC_.pdf 1_GPC_P.pdf --nup 1x2 --landscape --outfile 1.pdf")
+os.system("pdfjam 0_GPC_.pdf 0_GPC_P.pdf --nup 1x2 --landscape --outfile 0.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip 0.pdf 0.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip 1.pdf 1.pdf")
 
-ps.system("pdfjam 0_HMC_.pdf 0_HMC_P.pdf --nup 1x2 --landscape --outfile 0_HMC.pdf")
-ps.system("pdfjam 1_HMC_.pdf 1_HMC_P.pdf --nup 1x2 --landscape --outfile 1_HMC.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip 0_HMC.pdf 0_HMC.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip 1_HMC.pdf 1_HMC.pdf")
+os.system("pdfjam 0_HMC_.pdf 0_HMC_P.pdf --nup 1x2 --landscape --outfile 0_HMC.pdf")
+os.system("pdfjam 1_HMC_.pdf 1_HMC_P.pdf --nup 1x2 --landscape --outfile 1_HMC.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip 0_HMC.pdf 0_HMC.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip 1_HMC.pdf 1_HMC.pdf")
 
-ps.system("pdfjam 0.pdf 1.pdf --nup 2x1 --landscape --outfile 1_full.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip 1_full.pdf 1_full.pdf")
+os.system("pdfjam 0.pdf 1.pdf --nup 2x1 --landscape --outfile 1_full.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip 1_full.pdf 1_full.pdf")
 
-ps.system("pdfjam 0_HMC.pdf 1_HMC.pdf --nup 2x1 --landscape --outfile 1_full_HMC.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip 1_full_HMC.pdf 1_full_HMC.pdf")
+os.system("pdfjam 0_HMC.pdf 1_HMC.pdf --nup 2x1 --landscape --outfile 1_full_HMC.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip 1_full_HMC.pdf 1_full_HMC.pdf")
 
-ps.system("pdfjam 1_full.pdf 1_full_HMC.pdf --nup 1x2 --landscape --outfile fin.pdf")
-ps.system("pdfcrop --margins '0 0 0 0' --clip fin.pdf fin.pdf")
+os.system("pdfjam 1_full.pdf 1_full_HMC.pdf --nup 1x2 --landscape --outfile fin.pdf")
+os.system("pdfcrop --margins '0 0 0 0' --clip fin.pdf fin.pdf")
