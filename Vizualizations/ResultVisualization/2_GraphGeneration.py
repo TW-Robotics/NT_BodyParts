@@ -168,4 +168,11 @@ rsdf.loc["GPA+HMC-MLP"]
 result = pd.DataFrame({'predmethod':rsdf_FULL.index, 'ACC': np.array(rsdf_FULL['Acc']), 'MI': np.array(rsdf_FULL['MI']), 'logitSig': [k[0] for k in np.array(rsdf_FULL['logitSig'])]})
 result.groupby("predmethod").mean()
 result.groupby("predmethod").mean().to_latex("allmetrics.tex")
-
+import matplotlib.pyplot as plt
+from pandas.plotting import table
+ax = plt.subplot(222, frame_on=False) # no visible frame
+ax.xaxis.set_visible(False)  # hide the x axis
+ax.yaxis.set_visible(False)  # hide the y axis
+table(ax, result.groupby("predmethod").mean(),loc='center')  # where df is your data frame
+plt.savefig('table.pdf')
+os.system("pdfcrop --margins '0 0 0 0' --clip table.pdf table.pdf")
