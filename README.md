@@ -87,6 +87,7 @@ Model comparison:
 ![Accuracy comparison](Data/results/tilapia_genacc.png)
 ![Mutual information](Data/results/tilapia_mutinf.png)
 ![McNemar Test](Data/results/tilapia_mcnemar.png)
+![Summary](Data/results/table.png)
 
 
 # Usage of this software
