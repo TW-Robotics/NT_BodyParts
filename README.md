@@ -27,7 +27,7 @@ Usage: bash run.sh [-I] [-i] [-G] [-g] [-P] [-C] [-c] [-N] [-n] [-R]"
 
 
 # OS information and test settings
-This package was tested unter Ubuntu 16.04 with a Python2.7 and 3.5 installations (Python3.5 for CNN processing and Python2.7 for the remaining processing) as well as CUDA 9.0 drivers. The main processing hardware was a NVIDIA 1080Ti and a Intel i9-7900X CPU. If you do not have the appropriate hardware/software, you may have to adapt the scripts to be fully functional on your system. Please see the **requirement files in the ''Python''** folder for used software versions.
+This package was tested unter Ubuntu 16.04 with a Python2.7 and 3.5 installations (Python2.7 for CNN processing and Python3.5 for the remaining processing) as well as CUDA 9.0 drivers. The main processing hardware was a NVIDIA 1080Ti and a Intel i9-7900X CPU. If you do not have the appropriate hardware/software, you may have to adapt the scripts to be fully functional on your system. Please see the **requirement files in the ''Python''** folder for used software versions.
 
 **Note:** that the installation of the deep CNN libs may fail due to your hardware and driver settings.
 **Note:** we use Python virtual environments in our scripts. You have to install the envitronments using the installation functionality of our run script in order to run all scripts. The installation will fail if you do not have Python virtualenv package installed.
