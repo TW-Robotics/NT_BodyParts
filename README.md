@@ -48,7 +48,7 @@ Before you start using this package note, that the all scripts may take a long t
 
 Initially, you have to install all packages using the *-I* (for CNN and GPy) and *-i* flag (for HMC). 
 Afterwards, the installation the GP-LVM must be applied using the *-G* flag. This is mandatory, since we use the GP-LVM result file for CNN data generation. **You cannot use the CNN/HMC before the BGPLVM_DATA.csv file was created at the end of the GP-LVM.** Finally, you can use the *-C* flag for GPC, the *-N* flag for CNN classification and *-c* flag for HMC. 
-**If you want to do CNN or MHC based classification without GP-LVM, you can use our DUMMYBGPLVM_DATA.csv file in the data folder.*
+**If you want to do CNN or MHC based classification without GP-LVM, you can use our DUMMYBGPLVM_DATA.csv file in the data folder.**
 
 For visualization, the *-g* flag for GP-LVM and *-n* flag for the CNN can be used. The heatmaps are stored in the model folders. To create the result visualizations run the bash script in the visualizations folder.
 
