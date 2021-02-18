@@ -182,16 +182,16 @@ doGPC() {
 doCNN() {
     echo "Do CNN classification"
     cd ./CNN/Classification 
-    python CNN.py
+    python CNN.py 1
     cd ../..
 }
 #-----------------------------------------------------------#
 # Descr.: Do CNN modelling and visualization afterwards.    #
 #-----------------------------------------------------------#
 visCNN() {
-    echo "Do Grad-CAM and LRP visualization"
-    cd ./CNN/Visualization
-    python CNN.py
+    echo "Visualize CNN results and create p val images"
+    cd ./CNN/p-ValImage
+    bash run.bash
     cd ../..
 }
 #-----------------------------------------------------------#
