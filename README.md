@@ -38,6 +38,9 @@ Additionally, we used
 * pdfjam and pdfcrop for pdf result handling
 * cran R for GPA (the Paper data is based on the R implementation, our Python implementation is the default in this repo)
 
+## Troubleshooting for installation
+The installation may fail due to a Python instalaltion different to ours. We currently update the installtion for Ubuntu 20.04, Python3.8 and CUDA 11.2. If you have any problems with the installation, we currently suggest to move from virtualenv to venv in the installation functions of the *run.bash* script. You can exchange ''virtualenv --python=python3'' with  ''./Python/VE python3 -m venv ./Python/VE'' and the installation should work.
+
 # Software handling
 Initially, the libraries must be installed. This is currently implemented using Python virtual environments. The run.bash script autonomously installs all the relevant software packages by calling *bash run.sh -I -i*. 
 
