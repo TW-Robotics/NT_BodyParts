@@ -279,19 +279,22 @@ removeData() {
     cd ./Vizualizations/ResultVisualization
     rm -rf data
     rm -rf resdata
-    rm *pdf
-    rm *.csv
-    rm *.log
+    rm -f *pdf
+    rm -f *.csv
+    rm -f *.log
     cd ../RelevanceHeatmap
-    rm *.pdf
-    rm *.log
+    rm -f *.pdf
+    rm -f *.log
     cd ../ResultVisualization
     rm -rf __pycache__
     rm -rf resdata
     rm -rf res_GPC_CNN
     rm -rf res_HMC
-    rm *.pdf
-    rm *.log
+    rm -f *.pdf
+    rm -f *.log
+    cd ../RelevanceHeatmap_pval
+    rm -f *.pdf
+    rm -f *.log
     cd ../..
 }
 #-----------------------#
