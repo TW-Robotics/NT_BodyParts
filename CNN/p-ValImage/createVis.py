@@ -15,7 +15,7 @@ import os
 #--- global infos ---#
 kernel_width = 5 	#Width and height of Gaussian kernel
 kernel_sigma = 0 	#Default, estimated from width
-k=1000			#Number of iterations
+k=10000				#Number of iterations
 alpha = 0.001		#Alpha threshold value
 #-----------------#
 #--- functions ---#

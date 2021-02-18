@@ -30,3 +30,4 @@ mkdir notAugmented_GRAD
 ../../Python/VE/bin/python ./createVis.py ../Classification/notAugmented/ GRAD
 mv *.pdf notAugmented_GRAD/.
 mv *.png notAugmented_GRAD/.
+../../Python/VE/bin/python ./createVis_Paper.py
