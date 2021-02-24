@@ -102,37 +102,59 @@ for INDEX in rsdf.index:
     elif INDEX == 'gpcprcshfl':
         predmethod.append('GPA+GPC')
     elif INDEX == 'cnnshfl':
-        predmethod.append('CNV+CNN')
+        predmethod.append('Deep CNV+CNN')
 rsdf["predmethod"]=predmethod       #Add to existing data frame
 import matplotlib.pyplot as plt
 ## and can finally produce a boxplot for generlisation acciracy over methods
 fh=4        # figure height
 fw=4*fh     # and width
-lbsz=20     # font size of axis legends
+lbsz=15     # font size of axis legends
 ttsz=28     # and plot title
+tksz=12
+
 # ### Generate boxplot for generalisation accuracy
 # ### Average metrics per group
 rsdf.groupby("predmethod").mean()
 #rsdf.groupby("predmethod").mean().to_latex("allmetrics.tex")
-ax=rsdf.boxplot(column='Acc', by="predmethod", figsize=(fw, fh)) # use pandas
+#ax=rsdf.boxplot(column='Acc', by="predmethod", figsize=(fw, fh)) # use pandas
+#plt.suptitle("")      ## remove the default "By ... text"
+### add annotations
+#plt.title("", fontsize=ttsz)
+#plt.xlabel("Analysis methods", fontsize=lbsz)
+#plt.ylabel("Correctly classified [%]", fontsize=lbsz)
+### generate plot and inline visualisation
+#plt.savefig("tilapia_genacc.pdf", bbox_inches='tight')
+##plt.show()
+
+ax=rsdf.boxplot(column='Acc', by="predmethod", figsize=(fw, fh), fontsize=tksz) # use pandas
 plt.suptitle("")      ## remove the default "By ... text"
 ## add annotations
+#plt.title("Generalisation accuracy", fontsize=ttsz)
 plt.title("", fontsize=ttsz)
-plt.xlabel("Analysis methods", fontsize=lbsz)
+plt.xlabel("", fontsize=lbsz)
 plt.ylabel("Correctly classified [%]", fontsize=lbsz)
 ## generate plot and inline visualisation
 plt.savefig("tilapia_genacc.pdf", bbox_inches='tight')
-#plt.show()
+
 # ### Mutual information
-ax=rsdf.boxplot(column='MI', by="predmethod", figsize=(fw, fh)) # use pandas
+#ax=rsdf.boxplot(column='MI', by="predmethod", figsize=(fw, fh)) # use pandas
+#plt.suptitle("")      ## remove the default "By ... text"
+### add annotations
+#plt.title("", fontsize=ttsz)
+#plt.xlabel("Analysis methods", fontsize=lbsz)
+#plt.ylabel("Channel capacity [bit]", fontsize=lbsz)
+### generate plot and inline visualisation
+#plt.savefig("tilapia_mutinf.pdf", bbox_inches='tight')
+##plt.show()
+ax=rsdf.boxplot(column='MI', by="predmethod", figsize=(fw, fh), fontsize=tksz) # use pandas
 plt.suptitle("")      ## remove the default "By ... text"
 ## add annotations
+#plt.title("Mutual information", fontsize=ttsz)
 plt.title("", fontsize=ttsz)
-plt.xlabel("Analysis methods", fontsize=lbsz)
+plt.xlabel("", fontsize=lbsz)
 plt.ylabel("Channel capacity [bit]", fontsize=lbsz)
-## generate plot and inline visualisation
 plt.savefig("tilapia_mutinf.pdf", bbox_inches='tight')
-#plt.show()
+
 # ### McNemar significance comparing against GPA+GPC
 ## McNemar significance is displayed on logit scale to enlarge differences
 ## Including GPA+GPC makes no sense -> we remove it from the dataframe.
@@ -153,15 +175,25 @@ rsdf_FULL = rsdf.copy()
 rsdf.drop(index="GPA+GPC", inplace=True)
 rsdf.reset_index(inplace=True, drop=True)
 ## we may now go on as above
-ax=rsdf.boxplot(column='logitSig', by="predmethod", figsize=(fw, fh)) # use pandas
+#ax=rsdf.boxplot(column='logitSig', by="predmethod", figsize=(fw, fh)) # use pandas
+#plt.suptitle("")      ## remove the default "By ... text"
+### add annotations
+#plt.title("", fontsize=ttsz)
+#plt.xlabel("Analysis methods", fontsize=lbsz)
+#plt.ylabel("logit(p-value)", fontsize=lbsz)
+### generate plot and inline visualisation
+#plt.savefig("tilapia_mcnemar.pdf", bbox_inches='tight')
+##plt.show()
+ax=rsdf.boxplot(column='logitSig', by="predmethod", figsize=(fw, fh), fontsize=tksz) # use pandas
 plt.suptitle("")      ## remove the default "By ... text"
 ## add annotations
+#plt.title("McNemar significance levels", fontsize=ttsz)
 plt.title("", fontsize=ttsz)
-plt.xlabel("Analysis methods", fontsize=lbsz)
+plt.xlabel("", fontsize=lbsz)
 plt.ylabel("logit(p-value)", fontsize=lbsz)
-## generate plot and inline visualisation
 plt.savefig("tilapia_mcnemar.pdf", bbox_inches='tight')
-#plt.show()
+
+
 rsdf.set_index("predmethod", inplace=True, drop=False)
 rsdf.loc["GPA+HMC-MLP"]
 #--- Vizualization ---#
