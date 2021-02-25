@@ -127,6 +127,8 @@ for MODE in range(0,3):
                 #---------------------#
                 #--- Create images ---#
                 #---------------------#
+                if(CLASS =="Lan"):
+                    CLASS="Langano"
                 #LRP
                 f, arr = plt.subplots(1,3)  #All 3 in a row
                 if(MODE == 0):
@@ -184,7 +186,7 @@ for MODE in range(0,3):
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[0]+"_GRAD.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[1]+"_GRAD.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[2]+"_GRAD.pdf "+
-                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[3]+"_GRAD.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+names[3]+"_GRAD.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[4]+"_GRAD.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[5]+"_GRAD.pdf "+
                         "--nup 1x6 --landscape --outfile "+ 
@@ -196,7 +198,7 @@ for MODE in range(0,3):
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[0]+"_LRP.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[1]+"_LRP.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[2]+"_LRP.pdf "+
-                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[3]+"_LRP.pdf "+
+                       str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+names[3]+"_LRP.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[4]+"_LRP.pdf "+
                        str(ITERATION)+"_"+str(K)+"MODE"+str(MODE)+"_"+populations[5]+"_LRP.pdf "+
                         "--nup 1x6 --landscape --outfile "+ 
