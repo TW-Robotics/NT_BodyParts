@@ -114,3 +114,23 @@ for(i in seq(2,length(center.abfolge))){
 #--- legend ---#
 legend("topright",legend=class.names, col = seq(1,6),cex=0.75,bg='white', lty=1)
 dev.off()
+#--- Store for plotting ---#
+#-------------------------------#
+#--- Plot stuff for plotting ---#
+#-------------------------------#
+landmark.name <- c("UTP","EYE","AOD","POD","DIC","VOC","PIA","BPF","PEO","VEO","AOA","AOP","HCF","EMO")
+write.table(procrustes.output$mshape,"Python_Centers.csv",row.names = F,col.names = F,quote = F)
+write.table(landmark.name,"Python_LMName.csv",row.names = F,col.names = F,quote = F)
+PR.data.matrix <- as.data.frame(array(0, dim = c(209*14,3))) #X,Y and target for each of the 14 landmarks of 209 speciment 
+looper <- 1
+class.names[4] <- "Langano"
+for(i in seq(1,dim(procrustes.input.data)[3])){
+  for(L in seq(1,nr.landmarks)){
+    PR.data.matrix[looper,1] <- procrustes.output$rotated[L,1,i]
+    PR.data.matrix[looper,2] <- procrustes.output$rotated[L,2,i]
+    PR.data.matrix[looper,3] <- class.names[as.numeric(target[i,2])+1]
+    looper<-looper+1
+  }
+}
+colnames(PR.data.matrix) <- c("X","Y","Label")
+write.table(PR.data.matrix,"Python_fullData.csv",row.names = F,col.names = T,quote = F)
