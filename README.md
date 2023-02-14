@@ -97,13 +97,18 @@ Model comparison:
 You are free to use this software (see licence) or parts of this software. If you use parts of our package, please cite our paper.
 
 ```
-@article{WoeberEtAl,
-    author = {Wilfried W\"ober and Manuel Curto and Papius Tibihika and Paul Meulenbroek and Esayas Alemayehu and Lars Mehnen and Harald Meimberg and Peter Sykacek},
-    journal = {},
-    title = {Assessing Ethiopian Nile Tilapia Physiognomy with Machine Learning},
+@article{WoeberETAL,
+    doi = {10.1371/journal.pone.0249593},
+    author = {Wöber, Wilfried AND Curto, Manuel AND Tibihika, Papius AND Meulenbroek, Paul AND Alemayehu, Esayas AND Mehnen, Lars AND Meimberg, Harald AND Sykacek, Peter},
+    journal = {PLOS ONE},
+    publisher = {Public Library of Science},
+    title = {Identifying geographically differentiated features of Ethopian Nile tilapia (Oreochromis niloticus) morphology with machine learning},
     year = {2021},
-    month = {},
-    volume = {},
-    pages = {},
+    month = {04},
+    volume = {16},
+    url = {https://doi.org/10.1371/journal.pone.0249593},
+    pages = {1-30},
+    number = {4},
+}
     
 ```
